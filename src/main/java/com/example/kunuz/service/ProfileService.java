@@ -3,6 +3,7 @@ package com.example.kunuz.service;
 import com.example.kunuz.dto.ProfileDTO;
 import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
+import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
+
     public ProfileDTO create(ProfileDTO dto, Integer adminId) {
         // check - homework
         isValidProfile(dto);
@@ -37,7 +39,15 @@ public class ProfileService {
     }
 
     public void isValidProfile(ProfileDTO dto) {
-        // throw ...
+        if (dto.getPassword().length() < 6) {
+            throw new AppBadRequestException("Password length is less than 6 ");
+        } else if (!(dto.getEmail().endsWith("@mail.ru") || dto.getEmail().endsWith("@gmail.com"))) {
+            throw new AppBadRequestException("Email incorrect");
+        }
+        if (!profileRepository.findByEmail(dto.getEmail()).isEmpty()) {
+            throw new AppBadRequestException("This email is already registered");
+        }
+        return;
     }
 
 }
