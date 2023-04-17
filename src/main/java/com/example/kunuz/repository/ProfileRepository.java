@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer> {
     Optional<ProfileEntity> findByEmailAndPasswordAndVisible(String login, String md5Hash, boolean b);
+    Optional<ProfileEntity> findByEmail(String email);
 
 }

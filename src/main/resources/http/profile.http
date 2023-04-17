@@ -1,13 +1,14 @@
 ### create profile
 
 POST localhost:8080/api/v1/profile
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
 Content-Type:  application/json
 
 {
-  "name": "ADMIN",
-  "surname": "ADMIN",
-  "email": "admin@mail.ru",
-  "phone": "1213",
-  "password": "123456",
-  "role": "ADMIN"
+  "name": "Elmurod",
+  "surname": "Saydaliyev",
+  "email": "saydaliyeve@mail.ru",
+  "phone": "905072",
+  "password": "elmurod2203",
+  "role": "PUBLISHER"
 }
