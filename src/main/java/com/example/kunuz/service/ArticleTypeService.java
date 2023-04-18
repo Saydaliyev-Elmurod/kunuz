@@ -50,13 +50,13 @@ public class ArticleTypeService {
     }
 
     private void isValid(ArticleTypeDTO dto) {
-        if (dto.getNameEn().length() < 5) {
+        if (dto.getNameEn().length() < 2) {
             throw new AppBadRequestException("Name English not valid");
         }
-        if (dto.getNameUz().length() < 5) {
+        if (dto.getNameUz().length() < 2) {
             throw new AppBadRequestException("Name Uzbek not valid");
         }
-        if (dto.getNameRu().length() < 5) {
+        if (dto.getNameRu().length() < 2) {
             throw new AppBadRequestException("Name Russian not valid");
         }
     }
