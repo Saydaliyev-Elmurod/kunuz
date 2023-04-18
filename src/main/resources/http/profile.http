@@ -1,14 +1,26 @@
 ### create profile
 
-POST localhost:8080/api/v1/profile
+POST localhost:8080/api/v1/profile/
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
 Content-Type:  application/json
 
 {
-  "name": "Elmurod",
-  "surname": "Saydaliyev",
-  "email": "saydaliyeve@mail.ru",
-  "phone": "905072",
-  "password": "elmurod2203",
-  "role": "PUBLISHER"
+  "name": "John",
+  "surname": "Vong",
+  "email": "Long@mail.ru",
+  "phone": "1234",
+  "password": "jongkogn",
+  "role": "MODERATOR"
+}
+###   3. Update Profile Detail (ANY) (Profile updates own details)
+POST localhost:8080/api/v1/profile/update
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE4MjI4MDIsImlkIjo5LCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgxOTA5MjAyLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.v3JT20u3qKrZpY50Cqzds7SMx8Wdr4vfC3D78aLubJ7XnxgNVoQxWPx31OIYgIf3McrNP_JpqJrbqr6TarOEJA
+Content-Type: application/json
+
+{
+  "name": "Bobur",
+  "surname": "Jumaniyozov",
+  "email": "bigman@mail.ru",
+  "password": "bigman"
+
 }

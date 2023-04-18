@@ -1,0 +1,17 @@
+### update profile by admin
+POST localhost:8080/api/v1/profile/admin/8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+Content-Type: application/json
+
+{
+  "role": "PUBLISHER"
+}
+
+### profile list with pagination default 1 to 10
+GET localhost:8080/api/v1/profile/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+
+### delete by profile id
+DELETE localhost:8080/api/v1/profile/6
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+
