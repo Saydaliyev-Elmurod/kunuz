@@ -1,11 +1,14 @@
 package com.example.kunuz.service;
 
 import com.example.kunuz.dto.ArticleTypeDTO;
+import com.example.kunuz.dto.RegionDTO;
 import com.example.kunuz.entity.ArticleTypeEntity;
+import com.example.kunuz.entity.RegionEntity;
 import com.example.kunuz.enums.LangEnum;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.ArticleTypeRepository;
+import com.example.kunuz.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,27 +22,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.kunuz.enums.LangEnum.en;
-
 @Service
-public class ArticleTypeService {
+public class RegionService {
     @Autowired
-    private ArticleTypeRepository articleTypeRepository;
+    private RegionRepository regionRepository;
 
-    public ArticleTypeDTO create(ArticleTypeDTO dto) {
+    public RegionDTO create(RegionDTO dto) {
         isValid(dto);
-        ArticleTypeEntity entity = new ArticleTypeEntity();
+        RegionEntity entity = new RegionEntity();
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         entity.setNameUz(dto.getNameUz());
         entity.setCreatedDate(LocalDateTime.now());
         entity.setVisible(true);
-        articleTypeRepository.save(entity);
+        regionRepository.save(entity);
         return toDTO(entity);
     }
 
-    private ArticleTypeDTO toDTO(ArticleTypeEntity entity) {
-        ArticleTypeDTO dto = new ArticleTypeDTO();
+    private RegionDTO toDTO(RegionEntity entity) {
+        RegionDTO dto = new RegionDTO();
         dto.setNameUz(entity.getNameUz());
         dto.setNameRu(entity.getNameRu());
         dto.setNameEn(entity.getNameEn());
@@ -49,7 +50,7 @@ public class ArticleTypeService {
         return dto;
     }
 
-    private void isValid(ArticleTypeDTO dto) {
+    private void isValid(RegionDTO dto) {
         if (dto.getNameEn().length() < 5) {
             throw new AppBadRequestException("Name English not valid");
         }
@@ -61,14 +62,14 @@ public class ArticleTypeService {
         }
     }
 
-    public ArticleTypeDTO updateById(ArticleTypeDTO dto) {
-        ArticleTypeEntity entity = getById(dto.getId());
+    public RegionDTO updateById(RegionDTO dto) {
+        RegionEntity entity = getById(dto.getId());
         entity = filter(entity, dto);
-        articleTypeRepository.save(entity);
+        regionRepository.save(entity);
         return toDTO(entity);
     }
 
-    private ArticleTypeEntity filter(ArticleTypeEntity entity, ArticleTypeDTO dto) {
+    private RegionEntity filter(RegionEntity entity, RegionDTO dto) {
         if (dto.getNameUz() != null) {
             entity.setNameUz(dto.getNameUz());
         }
@@ -84,8 +85,8 @@ public class ArticleTypeService {
         return entity;
     }
 
-    private ArticleTypeEntity getById(Integer id) {
-        return articleTypeRepository.findById(id).orElseThrow(() -> {
+    private RegionEntity getById(Integer id) {
+        return regionRepository.findById(id).orElseThrow(() -> {
             throw new ItemNotFoundException("Item not found");
         });
 
@@ -93,18 +94,18 @@ public class ArticleTypeService {
 
 
     public void deleteById(Integer id) {
-        articleTypeRepository.deleteById(id);
+        regionRepository.deleteById(id);
     }
 
-    public Page<ArticleTypeDTO> getList(Integer page, Integer size) {
+    public Page<RegionDTO> getList(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
+        Page<RegionEntity> entityList = regionRepository.findAll(pageable);
         return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 
     public HashMap<Integer, String> getList(LangEnum name, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
+        Page<RegionEntity> entityList = regionRepository.findAll(pageable);
         HashMap<Integer, String> map = new HashMap<>();
         entityList.getContent().stream().map(entity -> {
             switch (name) {
@@ -117,8 +118,8 @@ public class ArticleTypeService {
         return map;
     }
 
-    private List<ArticleTypeDTO> toList(List<ArticleTypeEntity> entityList) {
-        List<ArticleTypeDTO> dtoList = new ArrayList<>();
+    private List<RegionDTO> toList(List<RegionEntity> entityList) {
+        List<RegionDTO> dtoList = new ArrayList<>();
         entityList.forEach(articleTypeEntity -> dtoList.add(toDTO(articleTypeEntity)));
         return dtoList;
     }
