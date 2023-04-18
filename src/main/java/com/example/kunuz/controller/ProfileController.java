@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.kunuz.util.JwtUtil.checkToAdmin;
+
 @RestController
 @RequestMapping("api/v1/profile")
 public class ProfileController {
@@ -87,13 +89,5 @@ public class ProfileController {
         return jwtDTO;
     }
 
-    private JwtDTO checkToAdmin(String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
-            throw new MethodNotAllowedException("Method not allowed");
-        }
-        return jwtDTO;
-    }
+
 }

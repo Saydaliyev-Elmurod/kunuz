@@ -23,6 +23,7 @@ public class JwtUtil {
         jwtBuilder.setIssuer("Kunuz test portali");
         return jwtBuilder.compact();
     }
+
     public static JwtDTO decode(String token) {
         try {
             JwtParser jwtParser = Jwts.parser();
@@ -42,5 +43,15 @@ public class JwtUtil {
             e.printStackTrace();
         }
         throw new MethodNotAllowedException("Jwt exception");
+    }
+
+    public static JwtDTO checkToAdmin(String authorization) {
+        String[] str = authorization.split(" ");
+        String jwt = str[1];
+        JwtDTO jwtDTO = JwtUtil.decode(jwt);
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return jwtDTO;
     }
 }

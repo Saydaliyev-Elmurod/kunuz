@@ -1,0 +1,35 @@
+### create articleType only by admin
+POST localhost:8080/api/v1/articleType/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+Content-Type: application/json
+
+{
+  "nameUz":"MuhbirUz",
+  "nameRu":"MuhbirRu",
+  "nameEn":"MuhbirEn"
+}
+### update by id only by admin
+POST localhost:8080/api/v1/articleType/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+Content-Type: application/json
+
+{
+  "nameUz":"JahonUz",
+  "nameRu":"JahonRu",
+  "nameEn":"JahonEn"
+}
+
+### delete by id only admin
+DELETE localhost:8080/api/v1/articleType/5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+
+### get list only by admin with pagination
+GET localhost:8080/api/v1/articleType/list
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+
+### get list by name  only by id with pagination
+GET localhost:8080/api/v1/articleType/list/uz?page=2&size=2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+
+
+
