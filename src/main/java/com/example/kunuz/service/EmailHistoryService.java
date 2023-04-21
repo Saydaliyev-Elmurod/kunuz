@@ -40,7 +40,7 @@ public class EmailHistoryService {
         return dtoList;
     }
 
-    public Page<EmailHistoryDTO> getByDate(LocalDate date, Integer size, Integer page) {
+    public Page<EmailHistoryDTO> getByDate(LocalDate date, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdDate"));
         Page<EmailHistoryEntity> entityPage = emailHistoryRepository.
                 getByCreatedDateBetween(date.atStartOfDay(),date.atStartOfDay().plus(1,ChronoUnit.DAYS), pageable);

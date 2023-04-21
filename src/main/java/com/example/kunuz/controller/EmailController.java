@@ -16,13 +16,13 @@ public class EmailController {
     public ResponseEntity<?> getEmailByEmail(@PathVariable("email") String email,
                                              @RequestParam(value = "size",defaultValue = "10") Integer size,
                                              @RequestParam(value = "page",defaultValue = "1") Integer page){
-        return ResponseEntity.ok(emailHistoryService.getByEmail(email,size,page));
+        return ResponseEntity.ok(emailHistoryService.getByEmail(email,page,size));
     }
     @GetMapping("/date/{date}")
-    public ResponseEntity<?> getByDate(@PathVariable("date")LocalDate date,
+    public ResponseEntity<?> getByDate(@PathVariable("date") LocalDate date,
                                        @RequestParam(value = "size",defaultValue = "10") Integer size,
                                        @RequestParam(value = "page",defaultValue = "1") Integer page){
-        return ResponseEntity.ok(emailHistoryService.getByDate(date,size,page));
+        return ResponseEntity.ok(emailHistoryService.getByDate(date,page,size));
     }
 
 }
