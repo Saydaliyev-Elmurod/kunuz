@@ -25,17 +25,16 @@ public class ProfileController {
     @PostMapping("/")
     public ResponseEntity<ProfileDTO> create(@RequestBody ProfileDTO dto,
                                              @RequestHeader("Authorization") String authorization) {
-        return ResponseEntity.ok(profileService.create(dto, checkToAdmin(authorization).getId()));
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+        return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
-
-
     //    2. Update Profile (by only ADMIN)
     @PostMapping("/admin/{id}")
     public ResponseEntity<?> updateAdmin(@PathVariable("id") Integer id,
                                          @RequestBody ProfileDTO dto,
                                          @RequestHeader("Authorization") String authorization) {
         dto.setId(id);
-        JwtDTO jwtDTO = checkToAdmin(authorization);
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.updateByAdmin(dto, jwtDTO));
 
     }
