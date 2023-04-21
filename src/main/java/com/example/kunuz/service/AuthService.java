@@ -47,13 +47,31 @@ public class AuthService {
         return responseDTO;
     }
 
+    private void isValidDTO(RegistrationDTO dto) {
+        if (dto.getPassword().length() < 6) {
+            throw new AppBadRequestException("Password length is less than 6 ");
+        } else if (!(dto.getEmail().contains("@"))) {
+            throw new AppBadRequestException("Email incorrect");
+        }
+
+
+    }
+
     public RegistrationResponseDTO registration(RegistrationDTO dto) {
         // check -?
+        isValidDTO(dto);
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
-        if (optional.isPresent()) {
-            throw new ItemNotFoundException("Email already exists mazgi.");
+        if (optional.isPresent() && optional.get().getStatus() != GeneralStatus.REGISTER) {
+            throw new ItemNotFoundException("Email already exists.");
         }
-        ProfileEntity entity = new ProfileEntity();
+        // check email limit
+        mailSenderService.checkLimit(dto.getEmail());
+        ProfileEntity entity = null;
+        if (optional.isEmpty()) {
+            entity = new ProfileEntity();
+        } else {
+            entity = optional.get();
+        }
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setRole(ProfileRole.USER);
@@ -63,13 +81,14 @@ public class AuthService {
         entity.setStatus(GeneralStatus.REGISTER);
         // send email
         mailSenderService.sendRegistrationEmail(dto.getEmail());
+//        mailSenderService.sendRegistrationEmailMime(dto.getEmail());
         // save
         profileRepository.save(entity);
         String s = "Verification link was send to email: " + dto.getEmail();
         return new RegistrationResponseDTO(s);
     }
+
     public RegistrationResponseDTO emailVerification(String jwt) {
-        // asjkdhaksdh.daskhdkashkdja
         String email = JwtUtil.decodeEmailVerification(jwt);
         Optional<ProfileEntity> optional = profileRepository.findByEmail(email);
         if (optional.isEmpty()) {

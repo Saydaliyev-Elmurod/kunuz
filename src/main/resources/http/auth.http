@@ -12,9 +12,9 @@ POST localhost:8080/api/v1/auth/register
 Content-Type:  application/json
 
 {
-  "name": "Alish",
-  "surname": "Aliyev",
-  "phone": "1213",
-  "email": "alish1@mail.ru",
+  "name": "Elmurod",
+  "surname": "Saydaliyev",
+  "phone": "900055072",
+  "email": "saydaliyevelmurod01@gmail.com",
   "password": "123456"
 }

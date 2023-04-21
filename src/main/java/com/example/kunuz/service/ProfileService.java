@@ -48,7 +48,7 @@ public class ProfileService {
     public void isValidProfile(ProfileDTO dto) {
         if (dto.getPassword().length() < 6) {
             throw new AppBadRequestException("Password length is less than 6 ");
-        } else if (!(dto.getEmail().endsWith("@mail.ru") || dto.getEmail().endsWith("@gmail.com"))) {
+        } else if (!(dto.getEmail().contains("@") )) {
             throw new AppBadRequestException("Email incorrect");
         }
         if (!profileRepository.findByEmail(dto.getEmail()).isEmpty()) {
