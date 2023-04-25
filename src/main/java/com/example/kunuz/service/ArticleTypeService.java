@@ -84,7 +84,7 @@ public class ArticleTypeService {
         return entity;
     }
 
-    private ArticleTypeEntity getById(Integer id) {
+    public ArticleTypeEntity getById(Integer id) {
         return articleTypeRepository.findById(id).orElseThrow(() -> {
             throw new ItemNotFoundException("Item not found");
         });

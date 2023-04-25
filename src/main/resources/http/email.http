@@ -1,4 +1,4 @@
 ### get email
-GET localhost:8080/api/v1/email/saydaliyevelmurod01@gmail.com?size=1&page=2
+GET localhost:8080/api/v1/email/saydaliyevelmurod01@gmail.com?size=4
 ### get email by given date
-GET localhost:8080/api/v1/email/date/2023-04-21
+GET localhost:8080/api/v1/email/date/2023-04-24

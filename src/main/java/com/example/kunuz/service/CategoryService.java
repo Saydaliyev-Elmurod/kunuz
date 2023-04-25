@@ -85,7 +85,7 @@ public class CategoryService {
         return entity;
     }
 
-    private CategoryEntity getById(Integer id) {
+    public CategoryEntity getById(Integer id) {
         return categoryRepository.findById(id).orElseThrow(() -> {
             throw new ItemNotFoundException("Item not found");
         });

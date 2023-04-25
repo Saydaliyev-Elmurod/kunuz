@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.kunuz.util.JwtUtil.checkToAdmin;
 
 @RestController
 @RequestMapping("api/v1/profile")
@@ -63,7 +62,7 @@ public class ProfileController {
     public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
                                     @RequestHeader("Authorization") String auth) {
-        checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.getAll(page, size));
     }
 
@@ -72,7 +71,7 @@ public class ProfileController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ProfileDTO> deleteById(@PathVariable("id") Integer id,
                                                  @RequestHeader("Authorization") String auth) {
-        checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         profileService.deleteById(id);
         return ResponseEntity.ok().build();
     }

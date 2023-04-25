@@ -85,7 +85,7 @@ public class RegionService {
         return entity;
     }
 
-    private RegionEntity getById(Integer id) {
+    public RegionEntity getById(Integer id) {
         return regionRepository.findById(id).orElseThrow(() -> {
             throw new ItemNotFoundException("Item not found");
         });

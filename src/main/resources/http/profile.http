@@ -1,16 +1,16 @@
 ### create profile
 
 POST localhost:8080/api/v1/profile/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIzOTE3NzEsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODI0NzgxNzEsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.RsFDRCl-KHQmuCDJlLiM7ejsAGvmPX49X6kmzxxcWtb0LPuC9q8CsCKveFLhnLAY8u2z4zGwBlCLbY6CLjGDOg
 Content-Type:  application/json
 
 {
-  "name": "John",
-  "surname": "Vong",
-  "email": "Long@mail.ru",
+  "name": "elmurod",
+  "surname": "elmurod",
+  "email": "elmurod1@mail.ru",
   "phone": "1234",
-  "password": "jongkogn",
-  "role": "MODERATOR"
+  "password": "elmurod",
+  "role": "PUBLISHER"
 }
 ###   3. Update Profile Detail (ANY) (Profile updates own details)
 POST localhost:8080/api/v1/profile/update

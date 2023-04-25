@@ -3,6 +3,7 @@ package com.example.kunuz.controller;
 import com.example.kunuz.dto.ArticleTypeDTO;
 import com.example.kunuz.dto.RegionDTO;
 import com.example.kunuz.enums.LangEnum;
+import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ArticleTypeService;
 import com.example.kunuz.service.RegionService;
 import com.example.kunuz.util.JwtUtil;
@@ -19,7 +20,7 @@ public class RegionController {
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody RegionDTO dto,
                                     @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.create(dto));
     }
     //### update by id only by admin
@@ -27,7 +28,7 @@ public class RegionController {
     public ResponseEntity<?> updateById(@PathVariable("id") Integer id,
                                         @RequestBody RegionDTO dto,
                                         @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         dto.setId(id);
         return ResponseEntity.ok(regionService.updateById(dto));
     }
@@ -35,7 +36,7 @@ public class RegionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Integer id,
                                         @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         regionService.deleteById(id);
         return ResponseEntity.ok().build();
     }
@@ -44,7 +45,7 @@ public class RegionController {
     public ResponseEntity<?> getList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Integer size,
                                      @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.getList(page, size));
     }
     //### get list by name  only by id with pagination
@@ -53,7 +54,7 @@ public class RegionController {
                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Integer size,
                                      @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(regionService.getList(name,page, size));
     }
 

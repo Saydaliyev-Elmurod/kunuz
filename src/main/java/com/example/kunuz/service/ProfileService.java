@@ -67,7 +67,7 @@ public class ProfileService {
         return toDTO(entity);
     }
 
-    private ProfileEntity getById(Integer id) {
+    public ProfileEntity getById(Integer id) {
         ProfileEntity entity = profileRepository.findById(id).orElseThrow(() ->
         {
             throw new ItemNotFoundException("Item not found");

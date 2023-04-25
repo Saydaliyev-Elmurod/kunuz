@@ -3,6 +3,7 @@ package com.example.kunuz.controller;
 import com.example.kunuz.dto.ArticleTypeDTO;
 import com.example.kunuz.dto.CategoryDTO;
 import com.example.kunuz.enums.LangEnum;
+import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ArticleTypeService;
 import com.example.kunuz.service.CategoryService;
 import com.example.kunuz.util.JwtUtil;
@@ -20,7 +21,7 @@ public class CategoryController {
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody CategoryDTO dto,
                                     @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(categoryService.create(dto));
     }
 
@@ -29,7 +30,7 @@ public class CategoryController {
     public ResponseEntity<?> updateById(@PathVariable("id") Integer id,
                                         @RequestBody CategoryDTO dto,
                                         @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         dto.setId(id);
         return ResponseEntity.ok(categoryService.updateById(dto));
     }
@@ -38,7 +39,7 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Integer id,
                                         @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         categoryService.deleteById(id);
         return ResponseEntity.ok().build();
     }
@@ -48,7 +49,7 @@ public class CategoryController {
     public ResponseEntity<?> getList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Integer size,
                                      @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(categoryService.getList(page, size));
     }
 
@@ -58,7 +59,7 @@ public class CategoryController {
                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Integer size,
                                      @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdmin(auth);
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(categoryService.getList(name, page, size));
     }
 }
