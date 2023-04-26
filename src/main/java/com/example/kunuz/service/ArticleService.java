@@ -1,5 +1,6 @@
 package com.example.kunuz.service;
 
+import com.example.kunuz.dto.ArticleShortInfoDTO;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.mapper.ArticleShortInfo;
 import com.example.kunuz.dto.ArticleDTO;
@@ -129,19 +130,19 @@ public class ArticleService {
     }
 
     public Object getTop5ByTypeId(Integer typeId) {
-        List<ArticleShortInfo> entityList = articleRepository.getTop5(typeId, ArticleStatus.PUBLISHED);
+        List<ArticleShortInfo> entityList = articleRepository.getTop5(typeId, ArticleStatus.PUBLISHED.name());
         return toShortInfo(entityList);
     }
 
     public Object getTop3ByTypeId(Integer typeId) {
-        List<ArticleShortInfo> entityList = articleRepository.getTop3(typeId, ArticleStatus.PUBLISHED);
+        List<ArticleShortInfo> entityList = articleRepository.getTop3(typeId, ArticleStatus.PUBLISHED.name());
         return toShortInfo(entityList);
     }
 
-    private List<ArticleDTO> toShortInfo(List<ArticleShortInfo> entityList) {
-        List<ArticleDTO> dtoList = new LinkedList<>();
+    private List<ArticleShortInfoDTO> toShortInfo(List<ArticleShortInfo> entityList) {
+        List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
         entityList.forEach(entity -> {
-            ArticleDTO dto = new ArticleDTO();
+            ArticleShortInfoDTO dto = new ArticleShortInfoDTO();
             dto.setId(entity.getId());
             dto.setTitle(entity.getTitle());
             dto.setDescription(entity.getDescription());
