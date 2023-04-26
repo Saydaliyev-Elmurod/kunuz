@@ -75,6 +75,24 @@ public class AttachService {
         }
         return new byte[0];
     }
+    public Resource download(String fileName) {
+        try {
+            int lastIndex = fileName.lastIndexOf(".");
+            String id = fileName.substring(0, lastIndex);
+            AttachEntity attachEntity = get(id);
+
+            Path file = Paths.get(folderName+"/" + attachEntity.getPath() + "/" + fileName);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
 
     public String getExtension(String fileName) { // mp3/jpg/npg/mp4.....
         int lastIndex = fileName.lastIndexOf(".");
