@@ -4,6 +4,7 @@ import com.example.kunuz.entity.AttachEntity;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.AttachRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,12 @@ import java.util.UUID;
 public class AttachService {
     @Autowired
     private AttachRepository attachRepository;
+    @Value("${folder.name}")
+    private String folderName;
     public String save(MultipartFile file) {
         try {
             String pathFolder = getYmDString(); // 2022/04/23
-            File folder = new File("attaches/" + pathFolder);  // attaches/2023/04/26
+            File folder = new File(folderName+"/" + pathFolder);  // attaches/2023/04/26
             if (!folder.exists()) {
                 folder.mkdirs();
             }
@@ -45,7 +48,7 @@ public class AttachService {
             attachEntity.setOriginalName(file.getOriginalFilename());
             attachRepository.save(attachEntity);
 
-            Path path = Paths.get("attaches/" + pathFolder + "/" + attachEntity.getId() + "." + extension);
+            Path path = Paths.get(folderName+"/" + pathFolder + "/" + attachEntity.getId() + "." + extension);
             // attaches/2023/04/26/uuid().jpg
             Files.write(path, bytes);
             return attachEntity.getId() + "." + extension;
@@ -54,6 +57,25 @@ public class AttachService {
         }
         return null;
     }
+
+
+
+    public byte[] open(String attachName) {
+        // 20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
+        int lastIndex = attachName.lastIndexOf(".");
+        String id = attachName.substring(0, lastIndex);//20f0f915-93ec-4099-97e3-c1cb7a95151f
+        AttachEntity attachEntity = get(id);
+        byte[] data;
+        try {                                                     // attaches/2023/4/25/20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
+            Path file = Paths.get(folderName+"/" + attachEntity.getPath() + "/" + attachName);
+            data = Files.readAllBytes(file);
+            return data;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
+    }
+
     public String getExtension(String fileName) { // mp3/jpg/npg/mp4.....
         int lastIndex = fileName.lastIndexOf(".");
         return fileName.substring(lastIndex + 1);
