@@ -26,5 +26,5 @@ public class AttachEntity {
     @Column
     private String extension;
     @Column(name = "created_date")
-    private LocalDateTime createdData;
+    private LocalDateTime createdDate;
 }

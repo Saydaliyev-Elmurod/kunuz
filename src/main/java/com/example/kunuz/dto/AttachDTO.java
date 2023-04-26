@@ -1,7 +1,11 @@
 package com.example.kunuz.dto;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+@Getter
+@Setter
 public class AttachDTO {
     private String id;
     private String originalName;
