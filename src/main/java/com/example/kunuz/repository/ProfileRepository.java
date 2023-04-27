@@ -4,6 +4,7 @@ import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

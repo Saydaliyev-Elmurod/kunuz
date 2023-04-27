@@ -7,8 +7,8 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 @Getter
 @Setter
-@Table
-@Entity(name = "region")
+@Table(name = "region")
+@Entity
 public class RegionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

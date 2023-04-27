@@ -11,8 +11,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Table
-@Entity(name = "article")
+@Table(name = "article")
+@Entity
 public class ArticleEntity {
     @Id
     private String id;

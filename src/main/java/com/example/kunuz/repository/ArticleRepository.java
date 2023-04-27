@@ -20,13 +20,13 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
 
     @Transactional
     @Modifying
-    @Query("update article set visible = :visible where id = :id")
+    @Query("update ArticleEntity set visible = :visible where id = :id")
     int updateVisible(@Param("visible") Boolean visible, @Param("id") String id);
 
 
     @Transactional
     @Modifying
-    @Query("update article set status = :status where id = :id")
+    @Query("update ArticleEntity set status = :status where id = :id")
     int updateStatus(@Param("status") ArticleStatus status, @Param("id") String id);
     @Query(value = "SELECT a.id,a.title,a.description,a.image_id,a.published_date " +
             " FROM article AS a  where  a.type_id =:t_id and status =:status order by created_date desc Limit 5", nativeQuery = true)

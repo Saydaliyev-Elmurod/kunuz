@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Table
-@Entity(name = "email_history")
+@Table(name = "email_history")
+@Entity
 public class EmailHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

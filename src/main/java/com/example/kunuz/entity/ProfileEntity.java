@@ -8,8 +8,8 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 @Getter
 @Setter
-@Table
-@Entity(name = "profile")
+@Table(name = "profile")
+@Entity
 public class ProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

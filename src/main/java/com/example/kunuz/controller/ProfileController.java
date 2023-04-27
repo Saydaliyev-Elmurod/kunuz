@@ -3,6 +3,7 @@ package com.example.kunuz.controller;
 import com.example.kunuz.dto.AttachDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.dto.ProfileDTO;
+import com.example.kunuz.dto.ProfileFilterDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.exps.MethodNotAllowedException;
@@ -83,8 +84,15 @@ public class ProfileController {
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,
                                          @RequestHeader("Authorization") String auth) {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth);
-        AttachDTO dto = profileService.uploadImage(file,jwtDTO);
+        AttachDTO dto = profileService.uploadImage(file, jwtDTO);
         return ResponseEntity.ok().body(dto);
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<?> filter(@RequestBody ProfileFilterDTO dto,
+                                    @RequestHeader("Authorization") String auth) {
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+        return ResponseEntity.ok().body(profileService.filter(dto));
     }
 
 
