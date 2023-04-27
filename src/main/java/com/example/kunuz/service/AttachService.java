@@ -38,7 +38,7 @@ public class AttachService {
     @Value("${domainName}")
     private String domainName;
 
-    public String save(MultipartFile file) {
+    public AttachDTO save(MultipartFile file) {
         try {
             String pathFolder = getYmDString(); // 2022/04/23
             File folder = new File(folderName + "/" + pathFolder);  // attaches/2023/04/26
@@ -60,7 +60,7 @@ public class AttachService {
             Path path = Paths.get(folderName + "/" + pathFolder + "/" + attachEntity.getId() + "." + extension);
             // attaches/2023/04/26/uuid().jpg
             Files.write(path, bytes);
-            return attachEntity.getId() + "." + extension;
+            return toDTO(attachEntity);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,7 +118,7 @@ public class AttachService {
 
     public AttachEntity get(String id) {
         return attachRepository.findById(id).orElseThrow(() -> {
-            throw new ItemNotFoundException("Attach not ound");
+            throw new ItemNotFoundException("Attach not found");
         });
     }
 

@@ -35,6 +35,9 @@ public class ProfileEntity {
     @Column(name = "created_date")
     private LocalDateTime createdDate = LocalDateTime.now();
     // photo_id
+    @OneToOne
+    @JoinColumn(name = "photo_id")
+    private AttachEntity attachEntity;
     @Column(name = "prt_id")
     private Integer prtId;
 }

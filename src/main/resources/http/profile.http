@@ -24,3 +24,13 @@ Content-Type: application/json
   "password": "bigman"
 
 }
+
+### profile update image;
+POST localhost:8080/api/v1/profile/upload
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI1Mjg2ODcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODI2MTUwODcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5fuD36iRjABZrKHVoaTOPJNgUepias95iDJeHfaZz3LdUS81_knatsWLD6mgbSShG3zzLVpwr4Wot9m7_QJePA
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+
+< C:\Users\Элмурод\Pictures\test.jpg

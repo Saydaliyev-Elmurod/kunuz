@@ -1,5 +1,6 @@
 package com.example.kunuz.controller;
 
+import com.example.kunuz.dto.AttachDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.AttachService;
 import com.example.kunuz.util.JwtUtil;
@@ -18,9 +19,9 @@ public class AttachController {
     private AttachService attachService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
-        String fileName = attachService.save(file);
-        return ResponseEntity.ok().body(fileName);
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
+        AttachDTO attachDTO = attachService.save(file);
+        return ResponseEntity.ok().body(attachDTO);
     }
 
 

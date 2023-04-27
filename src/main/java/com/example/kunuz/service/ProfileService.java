@@ -1,7 +1,9 @@
 package com.example.kunuz.service;
 
+import com.example.kunuz.dto.AttachDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.dto.ProfileDTO;
+import com.example.kunuz.entity.AttachEntity;
 import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
 import com.example.kunuz.enums.ProfileRole;
@@ -13,6 +15,7 @@ import com.example.kunuz.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +25,8 @@ import java.util.List;
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private AttachService attachService;
 
     public ProfileDTO create(ProfileDTO dto, Integer adminId) {
         // check - homework
@@ -48,7 +53,7 @@ public class ProfileService {
     public void isValidProfile(ProfileDTO dto) {
         if (dto.getPassword().length() < 6) {
             throw new AppBadRequestException("Password length is less than 6 ");
-        } else if (!(dto.getEmail().contains("@") )) {
+        } else if (!(dto.getEmail().contains("@"))) {
             throw new AppBadRequestException("Email incorrect");
         }
         if (!profileRepository.findByEmail(dto.getEmail()).isEmpty()) {
@@ -156,5 +161,18 @@ public class ProfileService {
     public void deleteById(Integer id) {
         ProfileEntity entity = getById(id);
         profileRepository.delete(entity);
+    }
+
+    public AttachDTO uploadImage(MultipartFile file, JwtDTO jwtDTO) {
+        ProfileEntity profileEntity = getById(jwtDTO.getId());
+        AttachDTO newPhoto = attachService.save(file);
+        AttachEntity oldPhoto = profileEntity.getAttachEntity();
+        profileEntity.setAttachEntity(attachService.get(newPhoto.getId()));
+        profileRepository.save(profileEntity);
+        //delete old image
+        if (oldPhoto!=null){
+            attachService.delete(oldPhoto.getId());
+        }
+        return newPhoto;
     }
 }

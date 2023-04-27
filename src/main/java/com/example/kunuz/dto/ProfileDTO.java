@@ -16,4 +16,5 @@ public class ProfileDTO {
     private String password;
     private ProfileRole role;
     private GeneralStatus status;
+    private String photo_id;
 }

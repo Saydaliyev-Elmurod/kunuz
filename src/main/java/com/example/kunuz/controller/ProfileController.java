@@ -1,5 +1,6 @@
 package com.example.kunuz.controller;
 
+import com.example.kunuz.dto.AttachDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.dto.ProfileDTO;
 import com.example.kunuz.enums.ProfileRole;
@@ -10,6 +11,7 @@ import com.example.kunuz.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,16 +26,17 @@ public class ProfileController {
     @PostMapping("/")
     public ResponseEntity<ProfileDTO> create(@RequestBody ProfileDTO dto,
                                              @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
+
     //    2. Update Profile (by only ADMIN)
     @PostMapping("/admin/{id}")
     public ResponseEntity<?> updateAdmin(@PathVariable("id") Integer id,
                                          @RequestBody ProfileDTO dto,
                                          @RequestHeader("Authorization") String authorization) {
         dto.setId(id);
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.ADMIN);
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.updateByAdmin(dto, jwtDTO));
 
     }
@@ -75,6 +78,15 @@ public class ProfileController {
         profileService.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,
+                                         @RequestHeader("Authorization") String auth) {
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth);
+        AttachDTO dto = profileService.uploadImage(file,jwtDTO);
+        return ResponseEntity.ok().body(dto);
+    }
+
 
     private JwtDTO checkToOwner(String auth, ProfileDTO dto) {
         String[] arr = auth.split(" ");
