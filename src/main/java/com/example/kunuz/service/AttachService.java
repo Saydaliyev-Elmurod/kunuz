@@ -1,7 +1,9 @@
 package com.example.kunuz.service;
 
 import com.example.kunuz.dto.AttachDTO;
+import com.example.kunuz.entity.ArticleEntity;
 import com.example.kunuz.entity.AttachEntity;
+import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.AttachRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +128,16 @@ public class AttachService {
         return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
 
     }
-
+    public boolean delete(String id) {
+        AttachEntity entity = get(id);
+        File file = new File(folderName + "/" + entity.getPath() + "/" + entity.getId()+"."+entity.getExtension());
+        if (file.delete()) {
+            attachRepository.delete(entity);
+        } else {
+            throw new AppBadRequestException("Cannot delete this file");
+        }
+        return true;
+    }
     private List<AttachDTO> toList(List<AttachEntity> entityList) {
         List<AttachDTO> dtoList = new ArrayList<>();
         entityList.forEach(attachEntity -> {
@@ -146,4 +157,6 @@ public class AttachService {
         dto.setExtension(entity.getExtension());
         return dto;
     }
+
+
 }

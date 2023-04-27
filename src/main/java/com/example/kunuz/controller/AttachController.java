@@ -43,6 +43,12 @@ public class AttachController {
         JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return  ResponseEntity.ok(attachService.pagination(page,size));
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") String id,
+                                    @RequestHeader("Authorization") String auth) {
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+        return ResponseEntity.ok(attachService.delete(id));
+    }
 
 
 }
