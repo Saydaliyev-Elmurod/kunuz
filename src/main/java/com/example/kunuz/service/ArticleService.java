@@ -1,6 +1,9 @@
 package com.example.kunuz.service;
 
 import com.example.kunuz.dto.ArticleShortInfoDTO;
+import com.example.kunuz.entity.CategoryEntity;
+import com.example.kunuz.entity.ProfileEntity;
+import com.example.kunuz.entity.RegionEntity;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.mapper.ArticleShortInfo;
 import com.example.kunuz.dto.ArticleDTO;
@@ -29,23 +32,40 @@ public class ArticleService {
     private ProfileService profileService;
 
     public ArticleDTO create(ArticleDTO dto, Integer moderator_id) {
-        isValid(dto);
+//        isValid(dto);
+//        ArticleEntity entity = new ArticleEntity();
+//        entity.setId(UUID.randomUUID().toString());
+//        entity.setStatus(ArticleStatus.NOT_PUBLISHED);
+//        entity.setTitle(dto.getTitle());
+//        entity.setDescription(dto.getDescription());
+//        entity.setContent(dto.getContent());
+//        entity.setSharedCount(dto.getSharedCount());
+//        entity.setImageId(dto.getImageId());
+//        entity.setRegion(regionService.getById(dto.getRegionId()));
+//        entity.setCategory(categoryService.getById(dto.getCategoryId()));
+//        entity.setModerator(profileService.getById(moderator_id));
+//        entity.setType(articleTypeService.getById(dto.getTypeId()));
+//        entity.setCreatedDate(LocalDateTime.now());
+//        articleRepository.save(entity);
+//        return toDTO(entity);
+        // check
+//        ProfileEntity moderator = profileService.get(moderId);
+//        RegionEntity region = regionService.get(dto.getRegionId());
+//        CategoryEntity category = categoryService.get(dto.getCategoryId());
+
         ArticleEntity entity = new ArticleEntity();
-        entity.setId(UUID.randomUUID().toString());
-        entity.setStatus(ArticleStatus.NOT_PUBLISHED);
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setContent(dto.getContent());
-        entity.setSharedCount(dto.getSharedCount());
-        entity.setImageId(dto.getImageId());
-        entity.setRegion(regionService.getById(dto.getRegionId()));
-        entity.setCategory(categoryService.getById(dto.getCategoryId()));
-        entity.setModerator(profileService.getById(moderator_id));
-        entity.setType(articleTypeService.getById(dto.getTypeId()));
-        entity.setCreatedDate(LocalDateTime.now());
+        entity.setModeratorId(moderator_id);
+        entity.setRegionId(dto.getRegionId());
+        entity.setCategoryId(dto.getCategoryId());
+        entity.setAttachId(dto.getAttachId());
+        // type
         articleRepository.save(entity);
-        return toDTO(entity);
+        return dto;
     }
+
 
     private ArticleDTO toDTO(ArticleEntity entity) {
 
@@ -56,7 +76,7 @@ public class ArticleService {
         dto.setContent(entity.getContent());
         dto.setSharedCount(entity.getSharedCount());
 
-        dto.setImageId(entity.getImageId());
+        dto.setAttachId(entity.getAttachId());
         dto.setRegionId(entity.getRegion().getId());
         dto.setCategoryId(entity.getCategory().getId());
         dto.setModeratorId(entity.getModerator().getId());
@@ -86,7 +106,7 @@ public class ArticleService {
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setContent(dto.getContent());
-        entity.setImageId(dto.getImageId());
+        entity.setAttachId(dto.getAttachId());
         entity.setRegion(regionService.getById(dto.getRegionId()));
         entity.setCategory(categoryService.getById(dto.getCategoryId()));
         articleRepository.save(entity);
@@ -95,7 +115,7 @@ public class ArticleService {
     }
 
     public int delete(String id) {
-        ArticleEntity entity = getById(id);
+//        ArticleEntity entity = getById(id);
         return articleRepository.updateVisible(false, id);
     }
 
@@ -104,9 +124,9 @@ public class ArticleService {
         if (optional.isEmpty()) {
             throw new ItemNotFoundException("Item not found");
         }
-//        if (optional.get().getVisible() == false) {
-//            throw new ItemNotFoundException("Item not found");
-//        }
+        if (optional.get().getVisible() == false) {
+            throw new ItemNotFoundException("Item not found");
+        }
         return optional.get();
     }
 

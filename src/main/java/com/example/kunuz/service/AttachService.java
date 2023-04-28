@@ -33,7 +33,7 @@ import java.util.UUID;
 public class AttachService {
     @Autowired
     private AttachRepository attachRepository;
-    @Value("${folder.name}")
+    @Value("attaches")
     private String folderName;
     @Value("${domainName}")
     private String domainName;

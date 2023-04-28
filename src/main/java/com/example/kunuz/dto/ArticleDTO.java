@@ -1,31 +1,22 @@
 package com.example.kunuz.dto;
 
-import com.example.kunuz.entity.ArticleTypeEntity;
-import com.example.kunuz.enums.ArticleStatus;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-
 @Getter
 @Setter
 public class ArticleDTO {
-    private String id;
+    @Size(min =15, max = 225, message = "Title must be between 10 and 225 characters")
     private String title;
+    @Size(min =15, message = "Description must be greater than 15 characters")
     private String description;
+    @Size(min =20, message = "Description must be greater than 20 characters")
     private String content;
-    private Integer sharedCount = 0;
-    private Integer imageId;
+    private Integer attachId;
+    @Positive(message = "Region Id must be greater than zero")
     private Integer regionId;
+    @Positive(message = "Category Id must be greater than zero")
     private Integer categoryId;
-    private Integer moderatorId;
-    private Integer publisherId;
-    private ArticleStatus status;
-    private LocalDateTime createdDate;
-    private LocalDateTime publishedDate;
+    @Positive(message = "Type Id must be greater than zero")
     private Integer typeId;
-    private Integer viewCount = 0;
-    private Boolean visible =false;
 }

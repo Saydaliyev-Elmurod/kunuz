@@ -2,6 +2,8 @@ package com.example.kunuz.entity;
 
 import com.example.kunuz.enums.ArticleStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,27 +26,30 @@ public class ArticleEntity {
     private String content;
     @Column(name = "shared_count")
     private Integer sharedCount = 0;
-    @Column(name = "image_id")
-    private Integer imageId;
-//    @Column(name = "region_id", insertable = false, updatable = false)
-//    private Integer regionId;
+    @Column(name = "attach_id")
+    private Integer attachId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
+    @JoinColumn(name = "attach_id", insertable = false, updatable = false)
+    private AttachEntity attachEntity;
+    @Column(name = "region_id")
+    private Integer regionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", insertable = false, updatable = false)
     private RegionEntity region;
-//    @Column(name = "category_id", insertable = false, updatable = false)
-//    private Integer categoryId;
+    @Column(name = "category_id")
+    private Integer categoryId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private CategoryEntity category;
-//    @Column(name = "moderator_id", insertable = false, updatable = false)
-//    private Integer moderatorId;
+    @Column(name = "moderator_id")
+    private Integer moderatorId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "moderator_id")
+    @JoinColumn(name = "moderator_id", insertable = false, updatable = false)
     private ProfileEntity moderator;
-//    @Column(name = "publisher_id", insertable = false, updatable = false)
-//    private Integer publisherId;
+    @Column(name = "publisher_id")
+    private Integer publisherId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publisher_id")
+    @JoinColumn(name = "publisher_id", insertable = false, updatable = false)
     private ProfileEntity publisher;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -53,9 +58,6 @@ public class ArticleEntity {
     private LocalDateTime createdDate;
     @Column(name = "published_date")
     private LocalDateTime publishedDate;
-    //    @Column(name = "type_id", nullable = false)
-//    private Integer typeId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private ArticleTypeEntity type;

@@ -8,6 +8,7 @@ import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ArticleService;
 import com.example.kunuz.service.ArticleTypeService;
 import com.example.kunuz.util.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody ArticleDTO dto,
+    public ResponseEntity<?> create(@RequestBody @Valid ArticleDTO dto,
                                     @RequestHeader("Authorization") String auth) {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.create(dto,jwtDTO.getId()));

@@ -50,6 +50,4 @@ public class AttachController {
         JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(attachService.delete(id));
     }
-
-
 }
