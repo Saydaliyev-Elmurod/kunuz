@@ -10,6 +10,7 @@ import com.example.kunuz.exps.ItemAlreadyExistsException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -175,7 +176,21 @@ public class ArticleService {
     }
 
     public Object getTop5TypeAndRegion(Integer regionId, Integer typeId) {
-        List<ArticleShortInfo> entityList = articleRepository.getTopNTypeAndRegion(typeId,regionId,5);
+        List<ArticleShortInfo> entityList = articleRepository.getTopNTypeAndRegion(typeId, regionId, 5);
         return toShortInfo(entityList);
+    }
+
+    public Page<ArticleShortInfoDTO> getArticleByRegion(Integer regionId, Integer page, Integer size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "view_count");
+        Pageable pageable = PageRequest.of(page-1, size, sort);
+        Page<ArticleShortInfo> entityList = articleRepository.getArticleByRegion(regionId, pageable);
+        return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
+    }
+
+    public Page<ArticleShortInfoDTO> getArticleByCategory(Integer categoryId, Integer page, Integer size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "view_count");
+        Pageable pageable = PageRequest.of(page-1, size, sort);
+        Page<ArticleShortInfo> entityList = articleRepository.getArticleByCategory(categoryId, pageable);
+        return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 }

@@ -58,27 +58,51 @@ public class ArticleController {
     public ResponseEntity<?> getByTypeTop3(@PathVariable("id") Integer typeId) {
         return ResponseEntity.ok(articleService.getTop3ByTypeId(typeId));
     }
+
     @GetMapping("/publish/8/{id}")
     public ResponseEntity<?> getByTypeTop8(@PathVariable("id") Integer typeId) {
         return ResponseEntity.ok(articleService.getTop8ByTypeId(typeId));
     }
+
     @GetMapping("/publish/{id}")
     public ResponseEntity<?> getByIdAndLang(@PathVariable("id") String articleId) {
         return ResponseEntity.ok(articleService.getByIdAndLang(articleId));
     }
+
     @GetMapping("/publish/4")
     public ResponseEntity<?> getByTypeWithoutId(@RequestParam("articleId") String articleId,
                                                 @RequestParam("typeId") Integer typeId) {
-        return ResponseEntity.ok(articleService.getByTypeWithoutId(articleId,typeId));
+        return ResponseEntity.ok(articleService.getByTypeWithoutId(articleId, typeId));
     }
-    @GetMapping("/publish/region/5")
-    public ResponseEntity<?> getByTop5TypeAndRegion(@RequestParam("regionId") Integer regionId,
-                                                    @RequestParam("typeId") Integer typeId) {
-        return ResponseEntity.ok(articleService.getTop5TypeAndRegion(regionId,typeId));
-    }
+
     @GetMapping("/publish/top/4")
     public ResponseEntity<?> getByTop4Read() {
         return ResponseEntity.ok(articleService.getByTop4Read());
+    }
+
+    @GetMapping("/publish/region/5")
+    public ResponseEntity<?> getByTop5TypeAndRegion(@RequestParam("regionId") Integer regionId,
+                                                    @RequestParam("typeId") Integer typeId) {
+        return ResponseEntity.ok(articleService.getTop5TypeAndRegion(regionId, typeId));
+    }
+
+    @GetMapping("/publish/region")
+    public ResponseEntity<?> getArticleByRegion(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                                @RequestParam("regionId") Integer regionId) {
+        return ResponseEntity.ok(articleService.getArticleByRegion(regionId, page, size));
+    }
+
+    @GetMapping("/publish/category")
+    public ResponseEntity<?> getArticleByCategory(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                  @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                                  @RequestParam("categoryId") Integer categoryId) {
+        return ResponseEntity.ok(articleService.getArticleByCategory(categoryId, page, size));
+    }
+
+    @GetMapping("/publish/category/5/{id}")
+    public ResponseEntity<?> getTop5ArticleByCategory(@PathVariable("id") Integer categoryId) {
+        return ResponseEntity.ok(articleService.getArticleByCategory(categoryId, 1, 5));
     }
 
 }
