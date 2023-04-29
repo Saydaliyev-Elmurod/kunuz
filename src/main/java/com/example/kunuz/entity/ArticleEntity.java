@@ -27,7 +27,7 @@ public class ArticleEntity {
     @Column(name = "shared_count")
     private Integer sharedCount = 0;
     @Column(name = "attach_id")
-    private Integer attachId;
+    private String attachId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attach_id", insertable = false, updatable = false)
     private AttachEntity attachEntity;
@@ -53,13 +53,16 @@ public class ArticleEntity {
     private ProfileEntity publisher;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private ArticleStatus status;
+    private ArticleStatus status=ArticleStatus.NOT_PUBLISHED;
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDate=LocalDateTime.now();
     @Column(name = "published_date")
     private LocalDateTime publishedDate;
+
+    @Column(name = "type_id")
+    private Integer typeId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "type_id", insertable = false, updatable = false)
     private ArticleTypeEntity type;
     @Column(name = "view_count")
     private Integer viewCount = 0;

@@ -12,6 +12,6 @@ public class ArticleShortInfoDTO {
     private String id;
     private String title;
     private String description;
-    private Integer imageId;
+    private Integer attachId;
     private LocalDateTime publishedDate;
 }

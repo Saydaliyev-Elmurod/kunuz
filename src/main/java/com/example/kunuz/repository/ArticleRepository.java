@@ -28,10 +28,9 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
     @Modifying
     @Query("update ArticleEntity set status = :status where id = :id")
     int updateStatus(@Param("status") ArticleStatus status, @Param("id") String id);
-    @Query(value = "SELECT a.id,a.title,a.description,a.image_id,a.published_date " +
-            " FROM article AS a  where  a.type_id =:t_id and status =:status order by created_date desc Limit 5", nativeQuery = true)
-    List<ArticleShortInfo> getTop5(@Param("t_id") Integer t_id,@Param("status") String status);
-    @Query(value = "SELECT a.id,a.title,a.description,a.image_id,a.published_date " +
-            " FROM article AS a  where  a.type_id =:t_id and status =:status order by created_date desc Limit 3", nativeQuery = true)
-    List<ArticleShortInfo> getTop3(@Param("t_id") Integer t_id,@Param("status") String status);
+
+    @Query(value = "SELECT a.id,a.title,a.description,a.attach_id,a.published_date " +
+            " FROM article AS a  where  a.type_id =:t_id and status =:status order by created_date desc Limit :limit", nativeQuery = true)
+    List<ArticleShortInfo> getTopN(@Param("t_id") Integer t_id, @Param("status") String status, @Param("limit") Integer limit);
+
 }

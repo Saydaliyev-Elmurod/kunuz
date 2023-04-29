@@ -1,10 +1,6 @@
 package com.example.kunuz.service;
 
 import com.example.kunuz.dto.ArticleShortInfoDTO;
-import com.example.kunuz.entity.CategoryEntity;
-import com.example.kunuz.entity.ProfileEntity;
-import com.example.kunuz.entity.RegionEntity;
-import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.mapper.ArticleShortInfo;
 import com.example.kunuz.dto.ArticleDTO;
 import com.example.kunuz.entity.ArticleEntity;
@@ -32,27 +28,6 @@ public class ArticleService {
     private ProfileService profileService;
 
     public ArticleDTO create(ArticleDTO dto, Integer moderator_id) {
-//        isValid(dto);
-//        ArticleEntity entity = new ArticleEntity();
-//        entity.setId(UUID.randomUUID().toString());
-//        entity.setStatus(ArticleStatus.NOT_PUBLISHED);
-//        entity.setTitle(dto.getTitle());
-//        entity.setDescription(dto.getDescription());
-//        entity.setContent(dto.getContent());
-//        entity.setSharedCount(dto.getSharedCount());
-//        entity.setImageId(dto.getImageId());
-//        entity.setRegion(regionService.getById(dto.getRegionId()));
-//        entity.setCategory(categoryService.getById(dto.getCategoryId()));
-//        entity.setModerator(profileService.getById(moderator_id));
-//        entity.setType(articleTypeService.getById(dto.getTypeId()));
-//        entity.setCreatedDate(LocalDateTime.now());
-//        articleRepository.save(entity);
-//        return toDTO(entity);
-        // check
-//        ProfileEntity moderator = profileService.get(moderId);
-//        RegionEntity region = regionService.get(dto.getRegionId());
-//        CategoryEntity category = categoryService.get(dto.getCategoryId());
-
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
@@ -61,8 +36,24 @@ public class ArticleService {
         entity.setRegionId(dto.getRegionId());
         entity.setCategoryId(dto.getCategoryId());
         entity.setAttachId(dto.getAttachId());
-        // type
+        entity.setTypeId(dto.getTypeId());
+        entity.setId(UUID.randomUUID().toString());
+        entity = articleRepository.save(entity);
+        dto.setId(entity.getId());
+        return dto;
+    }
+
+    public ArticleDTO update(ArticleDTO dto, String articleId) {
+        ArticleEntity entity = getById(articleId);
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
+        entity.setContent(dto.getContent());
+        entity.setRegionId(dto.getRegionId());
+        entity.setCategoryId(dto.getCategoryId());
+        entity.setAttachId(dto.getAttachId());
+        entity.setStatus(ArticleStatus.NOT_PUBLISHED);
         articleRepository.save(entity);
+        dto.setId(articleId);
         return dto;
     }
 
@@ -74,48 +65,23 @@ public class ArticleService {
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setContent(entity.getContent());
-        dto.setSharedCount(entity.getSharedCount());
+//        dto.setSharedCount(entity.getSharedCount());
 
         dto.setAttachId(entity.getAttachId());
         dto.setRegionId(entity.getRegion().getId());
         dto.setCategoryId(entity.getCategory().getId());
-        dto.setModeratorId(entity.getModerator().getId());
+//        dto.setModeratorId(entity.getModerator().getId());
 //        dto.setPublisherId(entity.getPublisher().getId());
-        dto.setStatus(entity.getStatus());
-        dto.setCreatedDate(entity.getCreatedDate());
+//        dto.setStatus(entity.getStatus());
+//        dto.setCreatedDate(entity.getCreatedDate());
 //        dto.setPublishedDate(entity.getPublishedDate());
-        dto.setVisible(entity.getVisible());
-        dto.setViewCount(entity.getViewCount());
+//        dto.setVisible(entity.getVisible());
+//        dto.setViewCount(entity.getViewCount());
         return dto;
     }
 
-    private void isValid(ArticleDTO dto) {
-        Optional<ArticleEntity> optional = articleRepository.findByTitle(dto.getTitle());
-        if (optional.isPresent()) {
-            throw new ItemAlreadyExistsException("This Article already exists!");
-        }
-    }
-
-    public ArticleDTO update(ArticleDTO dto) {
-        Optional<ArticleEntity> optional = articleRepository.findByTitle(dto.getTitle());
-        if (optional.isEmpty()) {
-            throw new ItemNotFoundException("Item not found");
-        }
-
-        ArticleEntity entity = optional.get();
-        entity.setTitle(dto.getTitle());
-        entity.setDescription(dto.getDescription());
-        entity.setContent(dto.getContent());
-        entity.setAttachId(dto.getAttachId());
-        entity.setRegion(regionService.getById(dto.getRegionId()));
-        entity.setCategory(categoryService.getById(dto.getCategoryId()));
-        articleRepository.save(entity);
-
-        return toDTO(entity);
-    }
 
     public int delete(String id) {
-//        ArticleEntity entity = getById(id);
         return articleRepository.updateVisible(false, id);
     }
 
@@ -130,18 +96,13 @@ public class ArticleService {
         return optional.get();
     }
 
-    public Boolean changeStatus(String id, ArticleStatus status, Integer publisherId) {
+    public Boolean changeStatusToPublish(String id, ArticleStatus status, Integer publisherId) {
         ArticleEntity entity = getById(id);
         if (entity.getStatus().equals(status)) {
             return false;
         }
-
         if (status.equals(ArticleStatus.PUBLISHED)) {
-//            if (entity.getVisible()==false){
-//                throw new MethodNotAllowedException("Visible is  false cannot publish");
-//            }
-//            entity.setVisible(true);
-            entity.setPublisher(profileService.getById(publisherId));
+            entity.setPublisherId(publisherId);
             entity.setPublishedDate(LocalDateTime.now());
         }
         entity.setStatus(status);
@@ -150,12 +111,17 @@ public class ArticleService {
     }
 
     public Object getTop5ByTypeId(Integer typeId) {
-        List<ArticleShortInfo> entityList = articleRepository.getTop5(typeId, ArticleStatus.PUBLISHED.name());
+        List<ArticleShortInfo> entityList = articleRepository.getTopN(typeId, ArticleStatus.PUBLISHED.name(), 5);
         return toShortInfo(entityList);
     }
 
     public Object getTop3ByTypeId(Integer typeId) {
-        List<ArticleShortInfo> entityList = articleRepository.getTop3(typeId, ArticleStatus.PUBLISHED.name());
+        List<ArticleShortInfo> entityList = articleRepository.getTopN(typeId, ArticleStatus.PUBLISHED.name(), 3);
+        return toShortInfo(entityList);
+    }
+
+    public Object getTop8ByTypeId(Integer typeId) {
+        List<ArticleShortInfo> entityList = articleRepository.getTopN(typeId, ArticleStatus.PUBLISHED.name(), 8);
         return toShortInfo(entityList);
     }
 
@@ -167,7 +133,7 @@ public class ArticleService {
             dto.setTitle(entity.getTitle());
             dto.setDescription(entity.getDescription());
             dto.setPublishedDate(entity.getPublished_date());
-            dto.setImageId(entity.getImageId());
+            dto.setAttachId(entity.getAttachId());
             dtoList.add(dto);
         });
         return dtoList;

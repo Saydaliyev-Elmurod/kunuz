@@ -23,14 +23,15 @@ public class ArticleController {
     public ResponseEntity<?> create(@RequestBody @Valid ArticleDTO dto,
                                     @RequestHeader("Authorization") String auth) {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth, ProfileRole.MODERATOR);
-        return ResponseEntity.ok(articleService.create(dto,jwtDTO.getId()));
+        return ResponseEntity.ok(articleService.create(dto, jwtDTO.getId()));
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public ResponseEntity<?> update(@RequestBody ArticleDTO dto,
-                                    @RequestHeader("Authorization") String auth) {
+                                    @RequestHeader("Authorization") String auth,
+                                    @PathVariable("id") String articleId) {
         JwtUtil.getJwtDTO(auth, ProfileRole.MODERATOR);
-        return ResponseEntity.ok(articleService.update(dto));
+        return ResponseEntity.ok(articleService.update(dto, articleId));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,22 +41,26 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.delete(id));
     }
 
-    @PutMapping("/adm/{id}")
+    @PutMapping("/publish/{id}")
     public ResponseEntity<?> changeStatus(@PathVariable("id") String id,
                                           @RequestParam ArticleStatus status,
                                           @RequestHeader("Authorization") String auth) {
-      JwtDTO jwtDTO=  JwtUtil.getJwtDTO(auth, ProfileRole.PUBLISHER);
-        return ResponseEntity.ok(articleService.changeStatus(id, status,jwtDTO.getId()));
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth, ProfileRole.PUBLISHER);
+        return ResponseEntity.ok(articleService.changeStatusToPublish(id, status, jwtDTO.getId()));
     }
 
-    @GetMapping("/public/type/5/{id}")
+    @GetMapping("/publish/5/{id}")
     public ResponseEntity<?> getByTypeTop5(@PathVariable("id") Integer typeId) {
         return ResponseEntity.ok(articleService.getTop5ByTypeId(typeId));
     }
 
-    @GetMapping("/public/type/3/{id}")
+    @GetMapping("/publish/3/{id}")
     public ResponseEntity<?> getByTypeTop3(@PathVariable("id") Integer typeId) {
         return ResponseEntity.ok(articleService.getTop3ByTypeId(typeId));
+    }
+    @GetMapping("/publish/8/{id}")
+    public ResponseEntity<?> getByTypeTop8(@PathVariable("id") Integer typeId) {
+        return ResponseEntity.ok(articleService.getTop8ByTypeId(typeId));
     }
 
 }
