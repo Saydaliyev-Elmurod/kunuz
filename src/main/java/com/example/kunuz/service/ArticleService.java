@@ -173,4 +173,9 @@ public class ArticleService {
         List<ArticleShortInfo> entityList = articleRepository.getTopNRead(4);
         return toShortInfo(entityList);
     }
+
+    public Object getTop5TypeAndRegion(Integer regionId, Integer typeId) {
+        List<ArticleShortInfo> entityList = articleRepository.getTopNTypeAndRegion(typeId,regionId,5);
+        return toShortInfo(entityList);
+    }
 }

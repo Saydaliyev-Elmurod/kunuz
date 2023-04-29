@@ -71,6 +71,11 @@ public class ArticleController {
                                                 @RequestParam("typeId") Integer typeId) {
         return ResponseEntity.ok(articleService.getByTypeWithoutId(articleId,typeId));
     }
+    @GetMapping("/publish/region/5")
+    public ResponseEntity<?> getByTop5TypeAndRegion(@RequestParam("regionId") Integer regionId,
+                                                    @RequestParam("typeId") Integer typeId) {
+        return ResponseEntity.ok(articleService.getTop5TypeAndRegion(regionId,typeId));
+    }
     @GetMapping("/publish/top/4")
     public ResponseEntity<?> getByTop4Read() {
         return ResponseEntity.ok(articleService.getByTop4Read());

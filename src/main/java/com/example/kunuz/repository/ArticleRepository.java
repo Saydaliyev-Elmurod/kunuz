@@ -38,4 +38,7 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
     @Query(value = "SELECT a.id,a.title,a.description,a.attach_id,a.published_date " +
             " FROM article AS a  where status ='PUBLISHED'  order by view_count desc Limit :limit", nativeQuery = true)
     List<ArticleShortInfo> getTopNRead (@Param("limit") Integer limit);
+    @Query(value = "SELECT a.id,a.title,a.description,a.attach_id,a.published_date " +
+            " FROM article AS a  where  a.type_id =:t_id and a.region_id =:r_id and status ='PUBLISHED'  order by created_date desc Limit :limit", nativeQuery = true)
+    List<ArticleShortInfo> getTopNTypeAndRegion (@Param("t_id") Integer t_id, @Param("r_id") Integer r_id,@Param("limit") Integer limit);
 }
