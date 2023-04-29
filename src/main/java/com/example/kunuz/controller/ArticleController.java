@@ -62,5 +62,18 @@ public class ArticleController {
     public ResponseEntity<?> getByTypeTop8(@PathVariable("id") Integer typeId) {
         return ResponseEntity.ok(articleService.getTop8ByTypeId(typeId));
     }
+    @GetMapping("/publish/{id}")
+    public ResponseEntity<?> getByIdAndLang(@PathVariable("id") String articleId) {
+        return ResponseEntity.ok(articleService.getByIdAndLang(articleId));
+    }
+    @GetMapping("/publish/4")
+    public ResponseEntity<?> getByTypeWithoutId(@RequestParam("articleId") String articleId,
+                                                @RequestParam("typeId") Integer typeId) {
+        return ResponseEntity.ok(articleService.getByTypeWithoutId(articleId,typeId));
+    }
+    @GetMapping("/publish/top/4")
+    public ResponseEntity<?> getByTop4Read() {
+        return ResponseEntity.ok(articleService.getByTop4Read());
+    }
 
 }

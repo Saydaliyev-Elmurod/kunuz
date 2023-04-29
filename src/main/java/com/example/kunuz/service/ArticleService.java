@@ -1,5 +1,6 @@
 package com.example.kunuz.service;
 
+import com.example.kunuz.dto.ArticleFullInfoDTO;
 import com.example.kunuz.dto.ArticleShortInfoDTO;
 import com.example.kunuz.mapper.ArticleShortInfo;
 import com.example.kunuz.dto.ArticleDTO;
@@ -66,7 +67,6 @@ public class ArticleService {
         dto.setDescription(entity.getDescription());
         dto.setContent(entity.getContent());
 //        dto.setSharedCount(entity.getSharedCount());
-
         dto.setAttachId(entity.getAttachId());
         dto.setRegionId(entity.getRegion().getId());
         dto.setCategoryId(entity.getCategory().getId());
@@ -79,6 +79,26 @@ public class ArticleService {
 //        dto.setViewCount(entity.getViewCount());
         return dto;
     }
+
+    private ArticleFullInfoDTO toFullInfoDTO(ArticleEntity entity) {
+
+        ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
+        dto.setId(entity.getId());
+        dto.setTitle(entity.getTitle());
+        dto.setDescription(entity.getDescription());
+        dto.setContent(entity.getContent());
+        dto.setPublishedDate(entity.getPublishedDate());
+        dto.setViewCount(entity.getViewCount());
+        dto.setAttachId(entity.getAttachId());
+        dto.setRegionId(entity.getRegionId());
+        dto.setCategoryId(entity.getCategoryId());
+        dto.setTypeId(entity.getTypeId());
+        return dto;
+    }
+    /*ArticleFullInfo
+    id(uuid),title,description,content,shared_count,
+    region(key,name),category(key,name),published_date,view_count,like_count,
+    tagList(name)*/
 
 
     public int delete(String id) {
@@ -137,5 +157,20 @@ public class ArticleService {
             dtoList.add(dto);
         });
         return dtoList;
+    }
+
+    public ArticleFullInfoDTO getByIdAndLang(String articleId) {
+        ArticleEntity entity = getById(articleId);
+        return toFullInfoDTO(entity);
+    }
+
+    public Object getByTypeWithoutId(String articleId, Integer typeId) {
+        List<ArticleShortInfo> entityList = articleRepository.getTopNWithoutId(typeId, articleId, 4);
+        return toShortInfo(entityList);
+    }
+
+    public Object getByTop4Read() {
+        List<ArticleShortInfo> entityList = articleRepository.getTopNRead(4);
+        return toShortInfo(entityList);
     }
 }

@@ -33,17 +33,20 @@ Content-Type: application/json
 DELETE localhost:8080/api/v1/article/delete/bc78aaa6-ab91-440c-9972-49c4f2887ef0
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NTA2MDAsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4MjgzNzAwMCwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.c7OMEp_IJrAh5MHHrbEyc4gpGXdLHBB2TuinPufgRg_ZFNWDvfCJb7r232FleHg_RerdJNGO-r3FRn0tE0d9pA
 
-### change status by publisher published not published
+###Change status by id (PUBLISHER) (publish,not_publish)
 PUT localhost:8080/api/v1/article/publish/dc9c0983-7e3e-4144-b950-6b051ab2ac8f?status = PUBLISHED
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NTIwNjIsImlkIjoxNCwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTY4MjgzODQ2MiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.bloIUJRZbWDtc9bgp4YaP9R6lvju4zBrHLl9QkfnV98027bHw7q-mTARKO2ylJdoTsUhYhvw5DZd8r3kNPczGQ
 
 ###  Get Last 5 Article By Types  ordered_by_created_date
-###        (Berilgan types bo'yicha oxirgi 5ta pubished bo'lgan article ni return qiladi.)
-###       ArticleShortInfo
 GET localhost:8080/api/v1/article/publish/5/2
-### get top 3
+### Get Last 3 Article By Types  ordered_by_created_date
 GET localhost:8080/api/v1/article/publish/3/2
 ### get top 8
 GET localhost:8080/api/v1/article/publish/8/2
+### Get Article By Id And Lang  lang poka lang netu
+GET localhost:8080/api/v1/article/publish/dc9c0983-7e3e-4144-b950-6b051ab2ac8f
 
-
+###  Get Last 4 Article By Types and except given article id.
+GET localhost:8080/api/v1/article/publish/4?articleId=dc9c0983-7e3e-4144-b950-6b051ab2ac8f&typeId=2
+### Get 4 most read articles
+GET localhost:8080/api/v1/article/publish/top/4
