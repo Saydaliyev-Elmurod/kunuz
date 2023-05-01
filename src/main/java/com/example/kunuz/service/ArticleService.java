@@ -1,13 +1,16 @@
 package com.example.kunuz.service;
 
+import com.example.kunuz.dto.ArticleFilterDTO;
 import com.example.kunuz.dto.ArticleFullInfoDTO;
 import com.example.kunuz.dto.ArticleShortInfoDTO;
+import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.mapper.ArticleShortInfo;
 import com.example.kunuz.dto.ArticleDTO;
 import com.example.kunuz.entity.ArticleEntity;
 import com.example.kunuz.enums.ArticleStatus;
 import com.example.kunuz.exps.ItemAlreadyExistsException;
 import com.example.kunuz.exps.ItemNotFoundException;
+import com.example.kunuz.repository.ArticleFilterRepository;
 import com.example.kunuz.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -21,13 +24,9 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
     @Autowired
-    private RegionService regionService;
+    private AttachService attachService;
     @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private ArticleTypeService articleTypeService;
-    @Autowired
-    private ProfileService profileService;
+    private ArticleFilterRepository articleFilterRepository;
 
     public ArticleDTO create(ArticleDTO dto, Integer moderator_id) {
         ArticleEntity entity = new ArticleEntity();
@@ -118,17 +117,14 @@ public class ArticleService {
     }
 
     public Boolean changeStatusToPublish(String id, ArticleStatus status, Integer publisherId) {
-        ArticleEntity entity = getById(id);
-        if (entity.getStatus().equals(status)) {
-            return false;
-        }
-        if (status.equals(ArticleStatus.PUBLISHED)) {
-            entity.setPublisherId(publisherId);
-            entity.setPublishedDate(LocalDateTime.now());
-        }
-        entity.setStatus(status);
-        articleRepository.save(entity);
-        return true;
+            ArticleEntity entity = getById(id);
+            if (status.equals(ArticleStatus.PUBLISHED)) {
+                entity.setPublishedDate(LocalDateTime.now());
+                entity.setPublisherId(publisherId);
+            }
+            entity.setStatus(status);
+            articleRepository.save(entity);
+            return true;
     }
 
     public Object getTop5ByTypeId(Integer typeId) {
@@ -154,12 +150,24 @@ public class ArticleService {
             dto.setTitle(entity.getTitle());
             dto.setDescription(entity.getDescription());
             dto.setPublishedDate(entity.getPublished_date());
-            dto.setAttachId(entity.getAttachId());
+            dto.setImage(attachService.getAttachLink(entity.getAttachId()));
             dtoList.add(dto);
         });
         return dtoList;
     }
-
+    private List<ArticleShortInfoDTO> toShortInfoList(List<ArticleEntity> entityList) {
+        List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
+        entityList.forEach(entity -> {
+            ArticleShortInfoDTO dto = new ArticleShortInfoDTO();
+            dto.setId(entity.getId());
+            dto.setTitle(entity.getTitle());
+            dto.setDescription(entity.getDescription());
+            dto.setPublishedDate(entity.getPublishedDate());
+            dto.setImage(attachService.getAttachLink(entity.getAttachId()));
+            dtoList.add(dto);
+        });
+        return dtoList;
+    }
     public ArticleFullInfoDTO getByIdAndLang(String articleId) {
         ArticleEntity entity = getById(articleId);
         return toFullInfoDTO(entity);
@@ -192,5 +200,10 @@ public class ArticleService {
         Pageable pageable = PageRequest.of(page-1, size, sort);
         Page<ArticleShortInfo> entityList = articleRepository.getArticleByCategory(categoryId, pageable);
         return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
+    }
+
+    public Object filter(ArticleFilterDTO dto) {
+        List<ArticleEntity> entityList = articleFilterRepository.filter(dto);
+        return toShortInfoList(entityList);
     }
 }

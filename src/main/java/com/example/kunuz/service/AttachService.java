@@ -35,7 +35,7 @@ public class AttachService {
     private AttachRepository attachRepository;
     @Value("attaches")
     private String folderName;
-    @Value("${domainName}")
+    @Value("${server.host}")
     private String domainName;
 
     public AttachDTO save(MultipartFile file) {
@@ -68,14 +68,14 @@ public class AttachService {
     }
 
 
-    public byte[] open(String attachName) {
+    public byte[] open(String attachId) {
         // 20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
-        int lastIndex = attachName.lastIndexOf(".");
-        String id = attachName.substring(0, lastIndex);//20f0f915-93ec-4099-97e3-c1cb7a95151f
-        AttachEntity attachEntity = get(id);
+//        int lastIndex = attachName.lastIndexOf(".");
+//        String id = attachName.substring(0, lastIndex);//20f0f915-93ec-4099-97e3-c1cb7a95151f
+        AttachEntity attachEntity = get(attachId);
         byte[] data;
         try {                                                     // attaches/2023/4/25/20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
-            Path file = Paths.get(folderName + "/" + attachEntity.getPath() + "/" + attachName);
+            Path file = Paths.get(folderName + "/" + attachEntity.getPath() + "/" + attachId + "." + attachEntity.getExtension());
             data = Files.readAllBytes(file);
             return data;
         } catch (IOException e) {
@@ -83,6 +83,8 @@ public class AttachService {
         }
         return new byte[0];
     }
+
+
 
     public Resource download(String fileName) {
         try {
@@ -128,9 +130,10 @@ public class AttachService {
         return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
 
     }
+
     public boolean delete(String id) {
         AttachEntity entity = get(id);
-        File file = new File(folderName + "/" + entity.getPath() + "/" + entity.getId()+"."+entity.getExtension());
+        File file = new File(folderName + "/" + entity.getPath() + "/" + entity.getId() + "." + entity.getExtension());
         if (file.delete()) {
             attachRepository.delete(entity);
         } else {
@@ -138,6 +141,7 @@ public class AttachService {
         }
         return true;
     }
+
     private List<AttachDTO> toList(List<AttachEntity> entityList) {
         List<AttachDTO> dtoList = new ArrayList<>();
         entityList.forEach(attachEntity -> {
@@ -152,11 +156,17 @@ public class AttachService {
         dto.setCreatedData(entity.getCreatedDate());
         dto.setOriginalName(entity.getOriginalName());
         dto.setPath(entity.getPath());
-        dto.setUrl(domainName + "/" + entity.getPath() + "/" + entity.getId());
+        dto.setUrl(domainName + "/" + "api/v1/attach/open/" + entity.getPath() + "/" + entity.getId() + "." + entity.getExtension());
         dto.setSize(entity.getSize());
         dto.setExtension(entity.getExtension());
         return dto;
     }
 
+    public AttachDTO getAttachLink(String attachId) {
+        AttachDTO dto = new AttachDTO();
+        dto.setId(attachId);
+        dto.setUrl(domainName + "/api/v1/attach/open/" + attachId);
+        return dto;
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.kunuz.controller;
 
 import com.example.kunuz.dto.ArticleDTO;
+import com.example.kunuz.dto.ArticleFilterDTO;
 import com.example.kunuz.dto.ArticleTypeDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.enums.ArticleStatus;
@@ -103,6 +104,13 @@ public class ArticleController {
     @GetMapping("/publish/category/5/{id}")
     public ResponseEntity<?> getTop5ArticleByCategory(@PathVariable("id") Integer categoryId) {
         return ResponseEntity.ok(articleService.getArticleByCategory(categoryId, 1, 5));
+    }
+
+    @GetMapping("/publish/filter")
+    public ResponseEntity<?> filter(@RequestBody ArticleFilterDTO dto,
+                                    @RequestHeader("Authorization") String auth) {
+
+        return ResponseEntity.ok(articleService.filter(dto));
     }
 
 }

@@ -11,7 +11,7 @@ public interface ArticleShortInfo {
 
     String getDescription();
 
-    Integer getAttachId();
+    String getAttachId();
 
     LocalDateTime getPublished_date();
 }

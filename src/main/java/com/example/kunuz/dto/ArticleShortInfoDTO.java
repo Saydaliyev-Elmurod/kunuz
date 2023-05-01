@@ -1,6 +1,7 @@
 package com.example.kunuz.dto;
 
 import com.example.kunuz.enums.ArticleStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +9,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ArticleShortInfoDTO {
     private String id;
     private String title;
     private String description;
-    private Integer attachId;
+    private AttachDTO image;
     private LocalDateTime publishedDate;
 }
