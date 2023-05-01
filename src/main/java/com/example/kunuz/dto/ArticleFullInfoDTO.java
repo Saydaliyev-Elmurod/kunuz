@@ -14,17 +14,6 @@ public class ArticleFullInfoDTO {
     private String title;
     private String description;
     private String content;
-//    private Integer sharedCount;
-
-//    private class Region {
-//        Integer id;
-//        String name;
-//    }
-//     public class Category {
-//        Integer id;
-//        String name;
-//    }
-
     private LocalDateTime publishedDate;
     private Integer viewCount;
     private String attachId;

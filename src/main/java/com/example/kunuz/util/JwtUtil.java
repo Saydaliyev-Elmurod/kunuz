@@ -8,7 +8,7 @@ import io.jsonwebtoken.*;
 import java.util.Date;
 
 public class JwtUtil {
-    private static final int tokenLiveTime = 1000 * 3600 * 24; // 1-day
+    private static final int tokenLiveTime = 1000 * 3600 * 24*10; // 10-day
     private static final int emailTokenLiveTime = 1000 * 120; // 2-minutes
     private static final String secretKey = "dasda143mazgi";
 
