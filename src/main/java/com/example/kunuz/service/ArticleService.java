@@ -1,14 +1,10 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.ArticleFilterDTO;
-import com.example.kunuz.dto.ArticleFullInfoDTO;
-import com.example.kunuz.dto.ArticleShortInfoDTO;
-import com.example.kunuz.entity.ProfileEntity;
+import com.example.kunuz.dto.*;
+import com.example.kunuz.enums.LangEnum;
 import com.example.kunuz.mapper.ArticleShortInfo;
-import com.example.kunuz.dto.ArticleDTO;
 import com.example.kunuz.entity.ArticleEntity;
 import com.example.kunuz.enums.ArticleStatus;
-import com.example.kunuz.exps.ItemAlreadyExistsException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.ArticleFilterRepository;
 import com.example.kunuz.repository.ArticleRepository;
@@ -23,6 +19,8 @@ import java.util.*;
 public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    private TagService tagService;
     @Autowired
     private AttachService attachService;
     @Autowired
@@ -80,7 +78,21 @@ public class ArticleService {
         return dto;
     }
 
-    private ArticleFullInfoDTO toFullInfoDTO(ArticleEntity entity) {
+    //    private ArticleFullInfoDTO toFullInfoDTO(ArticleEntity entity) {
+//        ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
+//        dto.setId(entity.getId());
+//        dto.setTitle(entity.getTitle());
+//        dto.setDescription(entity.getDescription());
+//        dto.setContent(entity.getContent());
+//        dto.setPublishedDate(entity.getPublishedDate());
+//        dto.setViewCount(entity.getViewCount());
+//        dto.setAttachId(entity.getAttachId());
+//        dto.setRegionId(entity.getRegionId());
+//        dto.setCategoryId(entity.getCategoryId());
+//        dto.setTypeId(entity.getTypeId());
+//        return dto;
+//    }
+    private ArticleFullInfoDTO toFullInfoDTO(ArticleEntity entity, LangEnum langEnum) {
 
         ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
         dto.setId(entity.getId());
@@ -89,10 +101,39 @@ public class ArticleService {
         dto.setContent(entity.getContent());
         dto.setPublishedDate(entity.getPublishedDate());
         dto.setViewCount(entity.getViewCount());
-        dto.setAttachId(entity.getAttachId());
-        dto.setRegionId(entity.getRegionId());
-        dto.setCategoryId(entity.getCategoryId());
-        dto.setTypeId(entity.getTypeId());
+        dto.setAttach(attachService.getAttachLink(entity.getAttachId()));
+
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(entity.getCategoryId());
+
+        RegionDTO regionDTO = new RegionDTO();
+        regionDTO.setId(entity.getRegionId());
+
+        ArticleTypeDTO articleTypeDTO = new ArticleTypeDTO();
+        articleTypeDTO.setId(entity.getTypeId());
+        switch (langEnum) {
+            case en -> {
+                regionDTO.setNameEn(entity.getRegion().getNameEn());
+                categoryDTO.setNameEn(entity.getCategory().getNameEn());
+                articleTypeDTO.setNameEn(entity.getType().getNameEn());
+            }
+            case ru -> {
+                regionDTO.setNameRu(entity.getRegion().getNameRu());
+                categoryDTO.setNameRu(entity.getCategory().getNameRu());
+                articleTypeDTO.setNameRu(entity.getType().getNameRu());
+
+            }
+            case uz -> {
+                regionDTO.setNameUz(entity.getRegion().getNameUz());
+                categoryDTO.setNameUz(entity.getCategory().getNameUz());
+                articleTypeDTO.setNameUz(entity.getType().getNameUz());
+
+            }
+
+        }
+        dto.setRegion(regionDTO);
+        dto.setCategory(categoryDTO);
+        dto.setType(articleTypeDTO);
         return dto;
     }
     /*ArticleFullInfo
@@ -117,14 +158,14 @@ public class ArticleService {
     }
 
     public Boolean changeStatusToPublish(String id, ArticleStatus status, Integer publisherId) {
-            ArticleEntity entity = getById(id);
-            if (status.equals(ArticleStatus.PUBLISHED)) {
-                entity.setPublishedDate(LocalDateTime.now());
-                entity.setPublisherId(publisherId);
-            }
-            entity.setStatus(status);
-            articleRepository.save(entity);
-            return true;
+        ArticleEntity entity = getById(id);
+        if (status.equals(ArticleStatus.PUBLISHED)) {
+            entity.setPublishedDate(LocalDateTime.now());
+            entity.setPublisherId(publisherId);
+        }
+        entity.setStatus(status);
+        articleRepository.save(entity);
+        return true;
     }
 
     public Object getTop5ByTypeId(Integer typeId) {
@@ -155,6 +196,7 @@ public class ArticleService {
         });
         return dtoList;
     }
+
     private List<ArticleShortInfoDTO> toShortInfoList(List<ArticleEntity> entityList) {
         List<ArticleShortInfoDTO> dtoList = new LinkedList<>();
         entityList.forEach(entity -> {
@@ -168,9 +210,10 @@ public class ArticleService {
         });
         return dtoList;
     }
-    public ArticleFullInfoDTO getByIdAndLang(String articleId) {
+
+    public ArticleFullInfoDTO getByIdAndLang(String articleId, LangEnum lang) {
         ArticleEntity entity = getById(articleId);
-        return toFullInfoDTO(entity);
+        return toFullInfoDTO(entity, lang);
     }
 
     public Object getByTypeWithoutId(String articleId, Integer typeId) {
@@ -190,14 +233,14 @@ public class ArticleService {
 
     public Page<ArticleShortInfoDTO> getArticleByRegion(Integer regionId, Integer page, Integer size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "view_count");
-        Pageable pageable = PageRequest.of(page-1, size, sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<ArticleShortInfo> entityList = articleRepository.getArticleByRegion(regionId, pageable);
         return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 
     public Page<ArticleShortInfoDTO> getArticleByCategory(Integer categoryId, Integer page, Integer size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "view_count");
-        Pageable pageable = PageRequest.of(page-1, size, sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<ArticleShortInfo> entityList = articleRepository.getArticleByCategory(categoryId, pageable);
         return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
     }
@@ -205,5 +248,11 @@ public class ArticleService {
     public Object filter(ArticleFilterDTO dto) {
         List<ArticleEntity> entityList = articleFilterRepository.filter(dto);
         return toShortInfoList(entityList);
+    }
+
+    public Object getByTagName(String tagName) {
+        TagDTO tagDTO = tagService.getByName(tagName);
+        return null;
+
     }
 }

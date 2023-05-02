@@ -64,7 +64,7 @@ public class ArticleFilterRepository {
             builder.append(" and s.publishedDate <= :publishedDate ");
             params.put("publishedDate", LocalDateTime.of(filterDTO.getCreatedDateTo(), LocalTime.MIN));
         }
-        Query query = this.entityManager.createQuery(builder.toString());
+        Query query = this.entityManager.createNativeQuery(builder.toString());
         for (Map.Entry<String, Object> param : params.entrySet()) {
             query.setParameter(param.getKey(), param.getValue());
         }

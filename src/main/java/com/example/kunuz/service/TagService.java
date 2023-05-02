@@ -26,7 +26,7 @@ public class TagService {
 
     public TagDTO create(TagDTO dto) {
         TagEntity old = tagRepository.getByName(dto.getName());
-        if (old!=null){
+        if (old != null) {
             throw new ItemAlreadyExistsException("Item already exist");
         }
         TagEntity entity = new TagEntity();
@@ -72,5 +72,9 @@ public class TagService {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<TagEntity> entityPage = tagRepository.findAll(pageable);
         return new PageImpl<>(toList(entityPage.getContent()), pageable, entityPage.getTotalElements());
+    }
+
+    public TagDTO getByName(String tagName) {
+        return toDTO(tagRepository.getByName(tagName));
     }
 }

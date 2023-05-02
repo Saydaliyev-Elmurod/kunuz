@@ -2,6 +2,7 @@ package com.example.kunuz.dto;
 
 import com.example.kunuz.enums.GeneralStatus;
 import com.example.kunuz.enums.ProfileRole;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class ProfileDTO {
     private Integer id;
     @NotBlank(message = "Name must have some value")

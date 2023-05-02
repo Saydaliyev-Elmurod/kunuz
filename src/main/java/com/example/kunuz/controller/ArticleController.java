@@ -5,6 +5,7 @@ import com.example.kunuz.dto.ArticleFilterDTO;
 import com.example.kunuz.dto.ArticleTypeDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.enums.ArticleStatus;
+import com.example.kunuz.enums.LangEnum;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.ArticleService;
 import com.example.kunuz.service.ArticleTypeService;
@@ -65,9 +66,10 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getTop8ByTypeId(typeId));
     }
 
-    @GetMapping("/publish/{id}")
-    public ResponseEntity<?> getByIdAndLang(@PathVariable("id") String articleId) {
-        return ResponseEntity.ok(articleService.getByIdAndLang(articleId));
+    @GetMapping("/publish")
+    public ResponseEntity<?> getByIdAndLang(@RequestParam("id") String articleId,
+                                            @RequestParam("lang") LangEnum lang) {
+        return ResponseEntity.ok(articleService.getByIdAndLang(articleId, lang));
     }
 
     @GetMapping("/publish/4")
@@ -111,6 +113,12 @@ public class ArticleController {
                                     @RequestHeader("Authorization") String auth) {
 
         return ResponseEntity.ok(articleService.filter(dto));
+    }
+
+    @GetMapping("/publish/tag/{tagName}")
+    public ResponseEntity<?> getByTagName(@PathVariable String tagName) {
+
+        return ResponseEntity.ok(articleService.getByTagName(tagName));
     }
 
 }

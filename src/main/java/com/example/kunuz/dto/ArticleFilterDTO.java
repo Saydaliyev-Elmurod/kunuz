@@ -1,12 +1,15 @@
 package com.example.kunuz.dto;
 
 import com.example.kunuz.enums.ArticleStatus;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class ArticleFilterDTO {
     private String title;
     private Integer regionId;

@@ -1,9 +1,12 @@
 package com.example.kunuz.dto;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class ArticleDTO {
     private String id;
     @Size(min =15, max = 225, message = "Title must be between 10 and 225 characters")
