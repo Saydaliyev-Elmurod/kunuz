@@ -16,4 +16,16 @@ public class ArticleShortInfoDTO {
     private String description;
     private AttachDTO image;
     private LocalDateTime publishedDate;
+
+    public ArticleShortInfoDTO(String id, String title, String description, AttachDTO image, LocalDateTime publishedDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.publishedDate = publishedDate;
+    }
+
+    public ArticleShortInfoDTO() {
+
+    }
 }

@@ -68,4 +68,14 @@ public class ArticleEntity {
     private Integer viewCount = 0;
     @Column(name = "visible")
     private Boolean visible = true;
+    public ArticleEntity(String id, String title, String description, String attachId, LocalDateTime publishedDate) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.attachId = attachId;
+        this.publishedDate = publishedDate;
+    }
+
+    public ArticleEntity() {
+    }
 }
