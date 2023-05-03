@@ -109,10 +109,12 @@ public class ArticleController {
     }
 
     @GetMapping("/publish/filter")
-    public ResponseEntity<?> filter(@RequestBody ArticleFilterDTO dto,
-                                    @RequestHeader("Authorization") String auth) {
+    public ResponseEntity<?> filter(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                    @RequestBody ArticleFilterDTO dto
+    ) {
 
-        return ResponseEntity.ok(articleService.filter(dto));
+        return ResponseEntity.ok(articleService.filter(dto, page, size));
     }
 
     @GetMapping("/publish/tag/{tagName}")

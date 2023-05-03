@@ -56,42 +56,6 @@ public class ArticleService {
         return dto;
     }
 
-
-    private ArticleDTO toDTO(ArticleEntity entity) {
-
-        ArticleDTO dto = new ArticleDTO();
-        dto.setId(entity.getId());
-        dto.setTitle(entity.getTitle());
-        dto.setDescription(entity.getDescription());
-        dto.setContent(entity.getContent());
-//        dto.setSharedCount(entity.getSharedCount());
-        dto.setAttachId(entity.getAttachId());
-        dto.setRegionId(entity.getRegion().getId());
-        dto.setCategoryId(entity.getCategory().getId());
-//        dto.setModeratorId(entity.getModerator().getId());
-//        dto.setPublisherId(entity.getPublisher().getId());
-//        dto.setStatus(entity.getStatus());
-//        dto.setCreatedDate(entity.getCreatedDate());
-//        dto.setPublishedDate(entity.getPublishedDate());
-//        dto.setVisible(entity.getVisible());
-//        dto.setViewCount(entity.getViewCount());
-        return dto;
-    }
-
-    //    private ArticleFullInfoDTO toFullInfoDTO(ArticleEntity entity) {
-//        ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
-//        dto.setId(entity.getId());
-//        dto.setTitle(entity.getTitle());
-//        dto.setDescription(entity.getDescription());
-//        dto.setContent(entity.getContent());
-//        dto.setPublishedDate(entity.getPublishedDate());
-//        dto.setViewCount(entity.getViewCount());
-//        dto.setAttachId(entity.getAttachId());
-//        dto.setRegionId(entity.getRegionId());
-//        dto.setCategoryId(entity.getCategoryId());
-//        dto.setTypeId(entity.getTypeId());
-//        return dto;
-//    }
     private ArticleFullInfoDTO toFullInfoDTO(ArticleEntity entity, LangEnum langEnum) {
 
         ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
@@ -245,9 +209,9 @@ public class ArticleService {
         return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 
-    public Object filter(ArticleFilterDTO dto) {
-        List<ArticleEntity> entityList = articleFilterRepository.filter(dto);
-        return toShortInfoList(entityList);
+    public Object filter(ArticleFilterDTO dto,int page,int size) {
+        Page<ArticleEntity> pageObj = articleFilterRepository.filter(dto,page,size);
+        return new PageImpl<>(toShortInfoList(pageObj.getContent()), PageRequest.of(page, size), pageObj.getTotalElements());
     }
 
     public Object getByTagName(String tagName) {

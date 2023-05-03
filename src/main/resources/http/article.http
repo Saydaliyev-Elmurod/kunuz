@@ -54,8 +54,6 @@ GET localhost:8080/api/v1/article/publish/top/4
 
 ###Get Last 5 Article By Types  And By Region Key
 GET localhost:8080/api/v1/article/publish/region/5?regionId=1&typeId=2
-
-
 ###Get Article list by Region Key (Pagination)
 GET localhost:8080/api/v1/article/publish/region?regionId=1&page=2&size=2
 

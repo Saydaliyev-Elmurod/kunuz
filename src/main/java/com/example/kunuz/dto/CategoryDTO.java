@@ -21,4 +21,7 @@ public class CategoryDTO {
     private String nameEn;
     private Boolean visible;
     private LocalDateTime createdDate;
+    private String name;
+
+
 }
