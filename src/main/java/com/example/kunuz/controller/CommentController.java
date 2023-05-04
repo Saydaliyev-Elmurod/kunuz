@@ -39,8 +39,8 @@ public class CommentController {
         return ResponseEntity.ok(commentService.delete(id));
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<?> list() {
-        return ResponseEntity.ok(commentService.list());
+    @GetMapping("/list/{id}")
+    public ResponseEntity<?> list(@PathVariable("id")String articleId) {
+        return ResponseEntity.ok(commentService.list(articleId));
     }
 }

@@ -74,8 +74,8 @@ public class CommentService {
         return res;
     }
 
-    public List<CommentDTO> list() {
-        return toList(commentRepository.getByVisible(true));
+    public List<CommentDTO> list(String articleId) {
+        return toList(commentRepository.getByVisibleAndArticleId(true,articleId));
     }
 
 }

@@ -20,7 +20,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
     @Query("update CommentEntity set visible=:visible where id=:id")
     Integer updateVisible(@Param("visible") boolean visible, @Param("id") Integer id);
 
-    List<CommentEntity> getByVisible(Boolean visible);
+    List<CommentEntity> getByVisibleAndArticleId(Boolean visible,String articleId);
     @Modifying
     @Transactional
     @Query("update CommentEntity set visible=false where replyId=?1")
