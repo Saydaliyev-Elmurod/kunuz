@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/like")
+@RequestMapping("api/v1/article_like")
 public class ArticleLikeController {
     @Autowired
     private ArticleLikeService articleLikeService;
