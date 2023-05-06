@@ -5,3 +5,4 @@
 ## Ro'yxatdan o'tish da email yoki phone ga verification code lar yuborish orqali bajariladi.
 ## Articlelarga profile like dislike ham qo'ya oladi.
 ## Va admin uchun barcha methodlar yozilgan.
+## Qolgan qismi Kun.uz saytiga o'xshash
