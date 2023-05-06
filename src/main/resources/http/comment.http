@@ -1,12 +1,12 @@
 ### created comment
 POST localhost:8080/api/v1/comment/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI5NjY0NDMsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4MzA1Mjg0MywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.0vq_H2JAGbCyGRGLtttebLKzQFEWllUVEKno5Nt2IEdzmvpwJo3rJuyZEG7C-yS3FJeyb_NByJql58My_rLkQw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzNjI2OTIsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDIyNjY5MiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.TA6R7PBSjm1zzEhy5QwjuVj3raF5WB17x8wMJ1IgrN39_trcBOHVMfJAbe6eYYVKV_dB9qVvOkxn5NGLxqAhAg
 Content-Type: application/json
 
 {
-  "replyId": 3,
+  "replyId": 6,
   "articleId": "bc78aaa6-ab91-440c-9972-49c4f2887ef0",
-  "content": "Comment7"
+  "content": "Comment5"
 }
 
 ### update comment by id
@@ -25,6 +25,20 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI5OTM2MDEsImlkIjo1LCJyb
 
 
 ### get list
-GET localhost:8080/api/v1/comment/list
+GET localhost:8080/api/v1/comment/list/bc78aaa6-ab91-440c-9972-49c4f2887ef0
 
+### get list by admin
+GET localhost:8080/api/v1/comment/list/adm/bc78aaa6-ab91-440c-9972-49c4f2887ef0
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzNjI4OTUsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQyMjY4OTUsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.6r_kvk9PR4O5-DC9p4XAprHZ5D7l9SK7hvOFhxqshARgbNQHUTKqXlRGHlJzDjAM1Lf6iM5SEa3jWMWhgJLhwA
 
+### filter
+POST localhost:8080/api/v1/comment/filter
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzNjI4OTUsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQyMjY4OTUsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.6r_kvk9PR4O5-DC9p4XAprHZ5D7l9SK7hvOFhxqshARgbNQHUTKqXlRGHlJzDjAM1Lf6iM5SEa3jWMWhgJLhwA
+Content-Type: application/json
+
+{
+  "articleId": "bc78aaa6-ab91-440c-9972-49c4f2887ef0"
+}
+
+### repleid comment
+GET localhost:8080/api/v1/comment/list/reply/6

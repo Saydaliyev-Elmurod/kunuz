@@ -23,4 +23,7 @@ public class CommentDTO {
     private LocalDateTime createdDate=LocalDateTime.now();
     private LocalDateTime updateDate;
     private Boolean visible;
+
+    private ProfileDTO profileDTO;
+    private ArticleDTO articleDTO;
 }

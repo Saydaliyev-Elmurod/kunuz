@@ -2,6 +2,7 @@ package com.example.kunuz.controller;
 
 import com.example.kunuz.dto.ArticleDTO;
 import com.example.kunuz.dto.CommentDTO;
+import com.example.kunuz.dto.CommentFilterDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.CommentService;
@@ -29,7 +30,7 @@ public class CommentController {
                                     @RequestHeader("Authorization") String auth,
                                     @PathVariable("id") Integer commentId) {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth);
-        return ResponseEntity.ok(commentService.update(dto, commentId,jwtDTO.getId()));
+        return ResponseEntity.ok(commentService.update(dto, commentId, jwtDTO.getId()));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,7 +41,30 @@ public class CommentController {
     }
 
     @GetMapping("/list/{id}")
-    public ResponseEntity<?> list(@PathVariable("id")String articleId) {
+    public ResponseEntity<?> list(@PathVariable("id") String articleId) {
         return ResponseEntity.ok(commentService.list(articleId));
+    }
+
+    @GetMapping("/list/adm/{id}")
+    public ResponseEntity<?> listByAdmin(@PathVariable("id") String articleId,
+                                         @RequestHeader("Authorization") String auth,
+                                         @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                         @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+        return ResponseEntity.ok(commentService.listByAdmin(articleId, page, size));
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<?> filter(@RequestBody CommentFilterDTO dto,
+                                    @RequestHeader("Authorization") String auth,
+                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+        return ResponseEntity.ok(commentService.filter(dto, page, size));
+    }
+
+    @GetMapping("/list/reply/{id}")
+    public ResponseEntity<?> replyCommentList(@PathVariable("id") Integer commentId) {
+        return ResponseEntity.ok(commentService.replyCommentList(commentId));
     }
 }

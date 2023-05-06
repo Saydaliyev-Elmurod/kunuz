@@ -1,11 +1,20 @@
 package com.example.kunuz.service;
 
+import com.example.kunuz.dto.ArticleDTO;
 import com.example.kunuz.dto.CommentDTO;
+import com.example.kunuz.dto.CommentFilterDTO;
+import com.example.kunuz.dto.ProfileDTO;
 import com.example.kunuz.entity.CommentEntity;
+import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.exps.MethodNotAllowedException;
+import com.example.kunuz.repository.CommentFilterRepository;
 import com.example.kunuz.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +26,8 @@ import java.util.Optional;
 public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private CommentFilterRepository commentFilterRepository;
 
     public CommentDTO create(CommentDTO dto, Integer creater_id) {
         CommentEntity entity = new CommentEntity();
@@ -31,7 +42,7 @@ public class CommentService {
 
     public CommentDTO update(CommentDTO dto, Integer commentId, Integer user_id) {
         CommentEntity entity = getById(commentId);
-        if (!entity.getProfileId().equals(user_id)){
+        if (!entity.getProfileId().equals(user_id)) {
             throw new MethodNotAllowedException("Method not allowed");
         }
         entity.setContent(dto.getContent());
@@ -69,13 +80,59 @@ public class CommentService {
     }
 
     public Integer delete(Integer id) {
-        int res= commentRepository.updateVisible(false, id);
+        int res = commentRepository.updateVisible(false, id);
         commentRepository.deleteReplyIdComment(id);
         return res;
     }
 
     public List<CommentDTO> list(String articleId) {
-        return toList(commentRepository.getByVisibleAndArticleId(true,articleId));
+        return toList(commentRepository.getByVisibleAndArticleId(true, articleId));
     }
 
+    public List<CommentDTO> listByAdmin(String articleId, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<CommentEntity> pageObj = commentRepository.getByArticleId(articleId, pageable);
+        List<CommentEntity> commentList = pageObj.getContent();
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+        commentList.forEach(commentEntity -> {
+            commentDTOList.add(toFullDto(commentEntity));
+        });
+        return commentDTOList;
+    }
+
+    private CommentDTO toFullDto(CommentEntity entity) {
+        CommentDTO dto = new CommentDTO();
+        dto.setId(entity.getId());
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setUpdateDate(entity.getUpdateDate());
+
+        ProfileEntity profileEntity = entity.getProfile();
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setId(profileEntity.getId());
+        profileDTO.setName(profileEntity.getName());
+        profileDTO.setSurname(profileEntity.getSurname());
+
+        dto.setProfileDTO(profileDTO);
+        dto.setContent(entity.getContent());
+
+        ArticleDTO articleDTO = new ArticleDTO();
+        articleDTO.setId(entity.getArticleId());
+        articleDTO.setTitle(entity.getArticle().getTitle());
+
+        dto.setArticleDTO(articleDTO);
+
+        dto.setReplyId(entity.getReplyId());
+        return dto;
+
+    }
+
+    public Page<CommentDTO> filter(CommentFilterDTO dto, Integer page, Integer size) {
+        Page<CommentEntity> pageObj = commentFilterRepository.filter(dto, page, size);
+        return new PageImpl<>(toList(pageObj.getContent()), pageObj.getPageable(), pageObj.getTotalElements());
+    }
+
+    public Object replyCommentList(Integer commentId) {
+        List<CommentEntity> entityList = commentRepository.replyCommentList(commentId);
+        return toList(entityList);
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.kunuz.repository;
 
 import com.example.kunuz.entity.CommentEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +27,9 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
     @Transactional
     @Query("update CommentEntity set visible=false where replyId=?1")
     void deleteReplyIdComment(Integer id);
+    Page<CommentEntity> getByArticleId(String articleId, Pageable pageable);
+    @Query("from CommentEntity  where replyId=?1")
+    List<CommentEntity> replyCommentList(Integer commentId);
+
+
 }
