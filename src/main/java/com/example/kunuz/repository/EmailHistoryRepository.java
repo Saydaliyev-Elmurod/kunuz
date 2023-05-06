@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EmailHistoryRepository extends CrudRepository<EmailHistoryEntity, Integer> {
-    Integer countByCreatedDateAfter( LocalDateTime emailLimitTime);
+    Integer countByEmailAndCreatedDateAfter( String email,LocalDateTime emailLimitTime);
     Page<EmailHistoryEntity> getByEmail(String  email, Pageable pageable);
     Page<EmailHistoryEntity> getByCreatedDateBetween(LocalDateTime fDate,LocalDateTime toDate, Pageable pageable);
 }

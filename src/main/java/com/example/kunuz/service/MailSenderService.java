@@ -95,9 +95,9 @@ public class MailSenderService {
     }
 
     public void checkLimit(String email) {
-        int count = emailHistoryRepository.countByCreatedDateAfter(LocalDateTime.now().minus(emailLimitTime, ChronoUnit.SECONDS));
+        int count = emailHistoryRepository.countByEmailAndCreatedDateAfter(email,LocalDateTime.now().minus(emailLimitTime, ChronoUnit.SECONDS));
         if (count >= emailLimit) {
-            throw new MethodNotAllowedException("many attempts in the given time. Try again after one");
+            throw new MethodNotAllowedException("Many attempts in the given time. Try again after one");
         }
     }
 }

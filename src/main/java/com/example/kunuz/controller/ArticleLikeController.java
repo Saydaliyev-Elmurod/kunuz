@@ -28,4 +28,10 @@ public class ArticleLikeController {
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth);
         return ResponseEntity.ok(articleLikeService.dislike(articleId, jwtDTO.getId()));
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") String articleId,
+                                          @RequestHeader("Authorization") String authorization) {
+        JwtDTO jwt = JwtUtil.getJwtDTO(authorization);
+        return ResponseEntity.ok(articleLikeService.delete(articleId, jwt.getId()));
+    }
 }

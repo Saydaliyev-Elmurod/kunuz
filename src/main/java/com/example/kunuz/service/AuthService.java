@@ -66,6 +66,7 @@ public class AuthService {
         }
         // check email limit
         mailSenderService.checkLimit(dto.getEmail());
+
         ProfileEntity entity = null;
         if (optional.isEmpty()) {
             entity = new ProfileEntity();

@@ -68,10 +68,11 @@ public class SavedArticleService {
     private SavedArticleShortInfoDTO toDTO(SavedArticleEntity savedArticleEntity) {
         SavedArticleShortInfoDTO dto = new SavedArticleShortInfoDTO();
         dto.setId(savedArticleEntity.getId());
+
         ArticleShortInfoDTO articleShortInfoDTO = new ArticleShortInfoDTO();
+        articleShortInfoDTO.setId(savedArticleEntity.getArticle().getId());
         articleShortInfoDTO.setTitle(savedArticleEntity.getArticle().getTitle());
         articleShortInfoDTO.setDescription(savedArticleEntity.getArticle().getDescription());
-        articleShortInfoDTO.setId(savedArticleEntity.getArticle().getId());
         articleShortInfoDTO.setPublishedDate(savedArticleEntity.getArticle().getPublishedDate());
         articleShortInfoDTO.setImage(attachService.getAttachLink(savedArticleEntity.getArticle().getAttachId()));
         dto.setArticle(articleShortInfoDTO);

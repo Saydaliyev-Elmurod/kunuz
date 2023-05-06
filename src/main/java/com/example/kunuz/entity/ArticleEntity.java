@@ -66,6 +66,8 @@ public class ArticleEntity {
     private ArticleTypeEntity type;
     @Column(name = "view_count")
     private Integer viewCount = 0;
+    @Column(name = "like_count")
+    private Integer like_count = 0;
     @Column(name = "visible")
     private Boolean visible = true;
     public ArticleEntity(String id, String title, String description, String attachId, LocalDateTime publishedDate) {
