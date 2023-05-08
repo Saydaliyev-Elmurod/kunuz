@@ -1,6 +1,6 @@
 package com.example.kunuz.repository;
 
-import com.example.kunuz.dto.ProfileFilterDTO;
+import com.example.kunuz.dto.profile.ProfileFilterDTO;
 import com.example.kunuz.entity.ProfileEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

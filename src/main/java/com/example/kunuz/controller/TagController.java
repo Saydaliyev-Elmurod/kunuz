@@ -1,6 +1,5 @@
 package com.example.kunuz.controller;
 
-import com.example.kunuz.dto.ArticleDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.dto.TagDTO;
 import com.example.kunuz.enums.ProfileRole;

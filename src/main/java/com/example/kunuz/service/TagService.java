@@ -1,13 +1,10 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.ArticleDTO;
 import com.example.kunuz.dto.TagDTO;
-import com.example.kunuz.entity.ArticleEntity;
 import com.example.kunuz.entity.TagEntity;
 import com.example.kunuz.exps.ItemAlreadyExistsException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.TagRepository;
-import org.aspectj.apache.bcel.generic.IINC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class TagService {

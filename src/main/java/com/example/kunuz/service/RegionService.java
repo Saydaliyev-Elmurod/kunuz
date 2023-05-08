@@ -1,13 +1,10 @@
 package com.example.kunuz.service;
 
-import com.example.kunuz.dto.ArticleTypeDTO;
 import com.example.kunuz.dto.RegionDTO;
-import com.example.kunuz.entity.ArticleTypeEntity;
 import com.example.kunuz.entity.RegionEntity;
 import com.example.kunuz.enums.LangEnum;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
-import com.example.kunuz.repository.ArticleTypeRepository;
 import com.example.kunuz.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

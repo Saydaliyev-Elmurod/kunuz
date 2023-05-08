@@ -2,19 +2,16 @@ package com.example.kunuz.controller;
 
 import com.example.kunuz.dto.AttachDTO;
 import com.example.kunuz.dto.JwtDTO;
-import com.example.kunuz.dto.ProfileDTO;
-import com.example.kunuz.dto.ProfileFilterDTO;
+import com.example.kunuz.dto.profile.ProfileDTO;
+import com.example.kunuz.dto.profile.ProfileFilterDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.ItemNotFoundException;
-import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.service.ProfileService;
 import com.example.kunuz.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 
 @RestController

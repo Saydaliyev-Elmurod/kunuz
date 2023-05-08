@@ -2,15 +2,13 @@ package com.example.kunuz.service;
 
 import com.example.kunuz.dto.AttachDTO;
 import com.example.kunuz.dto.JwtDTO;
-import com.example.kunuz.dto.ProfileDTO;
-import com.example.kunuz.dto.ProfileFilterDTO;
+import com.example.kunuz.dto.profile.ProfileDTO;
+import com.example.kunuz.dto.profile.ProfileFilterDTO;
 import com.example.kunuz.entity.AttachEntity;
 import com.example.kunuz.entity.ProfileEntity;
 import com.example.kunuz.enums.GeneralStatus;
-import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
-import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.repository.ProfileFilterRepository;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.MD5Util;

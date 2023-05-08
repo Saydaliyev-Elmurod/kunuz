@@ -1,7 +1,6 @@
 package com.example.kunuz.mapper;
 
-import com.example.kunuz.dto.ArticleShortInfoDTO;
-import com.example.kunuz.entity.ArticleEntity;
+import com.example.kunuz.dto.article.ArticleShortInfoDTO;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,10 +1,8 @@
 package com.example.kunuz.controller;
 
-import com.example.kunuz.dto.ArticleTypeDTO;
 import com.example.kunuz.dto.CategoryDTO;
 import com.example.kunuz.enums.LangEnum;
 import com.example.kunuz.enums.ProfileRole;
-import com.example.kunuz.service.ArticleTypeService;
 import com.example.kunuz.service.CategoryService;
 import com.example.kunuz.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;

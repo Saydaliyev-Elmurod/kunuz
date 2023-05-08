@@ -4,11 +4,12 @@ import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import io.jsonwebtoken.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Date;
 
 public class JwtUtil {
-    private static final int tokenLiveTime = 1000 * 3600 * 24*10; // 10-day
+    private static final int tokenLiveTime = 1000 * 3600 * 24 * 10; // 10-day
     private static final int emailTokenLiveTime = 1000 * 120; // 2-minutes
     private static final String secretKey = "dasda143mazgi";
 
@@ -26,21 +27,15 @@ public class JwtUtil {
     }
 
     public static JwtDTO decode(String token) {
-        try {
-            JwtParser jwtParser = Jwts.parser();
-            jwtParser.setSigningKey(secretKey);
-            Jws<Claims> jws = jwtParser.parseClaimsJws(token);
-            Claims claims = jws.getBody();
-            Integer id = (Integer) claims.get("id");
-            String role = (String) claims.get("role");
-            ProfileRole profileRole = ProfileRole.valueOf(role);
-            return new JwtDTO(id, profileRole);
-        } catch (JwtException e) {
-            e.printStackTrace();
-        }
-        throw new MethodNotAllowedException("Jwt exception");
+        JwtParser jwtParser = Jwts.parser();
+        jwtParser.setSigningKey(secretKey);
+        Jws<Claims> jws = jwtParser.parseClaimsJws(token);
+        Claims claims = jws.getBody();
+        Integer id = (Integer) claims.get("id");
+        String role = (String) claims.get("role");
+        ProfileRole profileRole = ProfileRole.valueOf(role);
+        return new JwtDTO(id, profileRole);
     }
-
 
 
     public static String decodeEmailVerification(String token) {
@@ -55,6 +50,7 @@ public class JwtUtil {
         }
         throw new MethodNotAllowedException("Jwt exception");
     }
+
     public static String encode(String text) {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setIssuedAt(new Date());
@@ -64,22 +60,25 @@ public class JwtUtil {
         jwtBuilder.setIssuer("Kunuz test portali");
         return jwtBuilder.compact();
     }
+
     public static JwtDTO getJwtDTO(String authorization) {
         String[] str = authorization.split(" ");
         String jwt = str[1];
         return JwtUtil.decode(jwt);
     }
-    public static boolean checkToOwner(String authorization,Integer userId) {
-        if (getJwtDTO(authorization).getId()!=userId){
+
+    public static boolean checkToOwner(String authorization, Integer userId) {
+        if (getJwtDTO(authorization).getId() != userId) {
             throw new MethodNotAllowedException("Method not allowed");
         }
         return true;
     }
+
     public static void checkToAdminOrOwner(String authorization) {
-       JwtDTO jwtDTO = getJwtDTO(authorization);
-       if (!(jwtDTO.getRole().equals(ProfileRole.ADMIN)||checkToOwner(authorization, jwtDTO.getId()))){
-           throw new MethodNotAllowedException("Method not allowed");
-       }
+        JwtDTO jwtDTO = getJwtDTO(authorization);
+        if (!(jwtDTO.getRole().equals(ProfileRole.ADMIN) || checkToOwner(authorization, jwtDTO.getId()))) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
     }
 
     public static JwtDTO getJwtDTO(String authorization, ProfileRole... roleList) {
@@ -97,5 +96,19 @@ public class JwtUtil {
             throw new MethodNotAllowedException("Method not allowed");
         }
         return jwtDTO;
+    }
+
+    public static void checkForRequiredRole(HttpServletRequest request, ProfileRole... roleList) {
+        ProfileRole jwtRole = (ProfileRole) request.getAttribute("role");
+        boolean roleFound = false;
+        for (ProfileRole role : roleList) {
+            if (jwtRole.equals(role)) {
+                roleFound = true;
+                break;
+            }
+        }
+        if (!roleFound) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
     }
 }

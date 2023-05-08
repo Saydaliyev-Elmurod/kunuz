@@ -1,10 +1,10 @@
 ### create article
-POST localhost:8080/api/v1/article/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzNzcxNjEsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDI0MTE2MSwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.dA92lLK3MfC7RqVwdQqXLkaWFkffxle6y4qV7pvdKrPv4k3tqPrXPqVi3PHlIrKm0GVdykFUakhGet7PpjIESQ
+POST localhost:8080/api/v1/article/private/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzOTAwMjAsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDI1NDAyMCwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.hAaYY5vlELafEz9Gfg9cuUvdFQSdeT5u7OYbAZDYoqohJ0kfMP0zuODALGCT-AieCdleXd062BeDyPkIqW8Kag
 Content-Type: application/json
 
 {
-  "title": "Shuncha qmkmilganimni ",
+  "title": "Shuncha qmkmilganimninn ",
   "description": "Brain academyda java kurslari ochilyapti",
   "content": "Hazillashdek Brainda Spring kurslari ochilyapti ",
   "categoryId": 2,

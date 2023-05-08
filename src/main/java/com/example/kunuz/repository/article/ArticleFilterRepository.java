@@ -1,14 +1,13 @@
-package com.example.kunuz.repository;
+package com.example.kunuz.repository.article;
 
-import com.example.kunuz.dto.comment.CommentFilterDTO;
-import com.example.kunuz.entity.CommentEntity;
+import com.example.kunuz.dto.article.ArticleFilterDTO;
+import com.example.kunuz.entity.ArticleEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -16,27 +15,40 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class CommentFilterRepository {
+
+public class ArticleFilterRepository {
     @Autowired
     private EntityManager entityManager;
-
-    public PageImpl<CommentEntity> filter(CommentFilterDTO filterDTO, int page, int size) {
+    public PageImpl<ArticleEntity> filter(ArticleFilterDTO filterDTO, int page, int size) {
         Map<String, Object> params = new HashMap<>();
         StringBuilder builder = new StringBuilder();
 
-        if (filterDTO.getArticleId() != null) {
-            builder.append(" and s.articleId like :articleId");
-            params.put("articleId", filterDTO.getArticleId());
+        if (filterDTO.getTitle() != null) {
+            builder.append(" and s.title like :title");
+            params.put("title", "%" + filterDTO.getTitle() + "%");
         }
-        if (filterDTO.getProfileId() != null) {
-            builder.append(" and s.profileId = :profileId");
-            params.put("profileId", filterDTO.getProfileId());
+        if (filterDTO.getRegionId() != null) {
+            builder.append(" and s.regionId = :regionId");
+            params.put("regionId", filterDTO.getRegionId());
         }
 
-        if (filterDTO.getId() != null) {
-            builder.append(" and s.id = :id");
-            params.put("id", filterDTO.getId());
+        if (filterDTO.getCategoryId() != null) {
+            builder.append(" and s.categoryId = :categoryId");
+            params.put("categoryId", filterDTO.getCategoryId());
         }
+        if (filterDTO.getTypeId() != null) {
+            builder.append(" and s.typeId = :typeId");
+            params.put("typeId", filterDTO.getTypeId());
+        }
+        if (filterDTO.getModeratorId() != null) {
+            builder.append(" and s.moderatorId = :moderatorId");
+            params.put("moderatorId", filterDTO.getModeratorId());
+        }
+        if (filterDTO.getPublisherId() != null) {
+            builder.append(" and s.publisherId = :publisherId");
+            params.put("publisherId", filterDTO.getPublisherId());
+        }
+
         if (filterDTO.getCreatedDateFrom() != null && filterDTO.getCreatedDateTo() != null) {
             builder.append(" and s.createdDate between :dateFrom and dateTo ");
             params.put("dateFrom", LocalDateTime.of(filterDTO.getCreatedDateFrom(), LocalTime.MIN));
@@ -49,10 +61,10 @@ public class CommentFilterRepository {
             params.put("dateTo", LocalDateTime.of(filterDTO.getCreatedDateTo(), LocalTime.MIN));
         }
 
-        StringBuilder selectBuilder = new StringBuilder("Select s  From CommentEntity as s where visible = true ");
+        StringBuilder selectBuilder = new StringBuilder("Select new ArticleEntity(s.id,s.title,s.description,s.attachId,s.publishedDate) From ArticleEntity as s where visible = true ");
         selectBuilder.append(builder);
 
-        StringBuilder countBuilder = new StringBuilder("select count(s) from CommentEntity as s where visible = true ");
+        StringBuilder countBuilder = new StringBuilder("select count(s) from ArticleEntity as s where visible = true ");
         countBuilder.append(builder);
 
         Query selectQuery = this.entityManager.createQuery(selectBuilder.toString());
@@ -65,10 +77,10 @@ public class CommentFilterRepository {
 
         selectQuery.setFirstResult((page - 1) * size); // offset
         selectQuery.setMaxResults(size);
-        List<CommentEntity> commentEntityList = selectQuery.getResultList();
+        List<ArticleEntity> articleEntityList = selectQuery.getResultList();
         long totalCount = (long) countQuery.getSingleResult();
 
 
-        return new PageImpl<>(commentEntityList, PageRequest.of(page, size), totalCount);
+        return new PageImpl<>(articleEntityList, PageRequest.of(page, size), totalCount);
     }
 }
