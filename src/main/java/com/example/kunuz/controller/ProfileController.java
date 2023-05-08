@@ -1,6 +1,5 @@
 package com.example.kunuz.controller;
 
-import com.example.kunuz.dto.AttachDTO;
 import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.dto.profile.ProfileDTO;
 import com.example.kunuz.dto.profile.ProfileFilterDTO;
@@ -8,7 +7,9 @@ import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.service.ProfileService;
 import com.example.kunuz.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,79 +17,81 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/v1/profile")
+@AllArgsConstructor
 public class ProfileController {
-    @Autowired
-    private ProfileService profileService;
+    private final ProfileService profileService;
 
     //   1. Create profile (ADMIN) (can create MODERATOR,PUBLISHER))
-    @PostMapping("/")
-    public ResponseEntity<ProfileDTO> create(@RequestBody ProfileDTO dto,
-                                             @RequestHeader("Authorization") String authorization) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
-        return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
+    @PostMapping("/private/admin")
+    public ResponseEntity<ProfileDTO> create(@RequestBody @Valid ProfileDTO dto,
+                                             HttpServletRequest request) {
+        int prtId = JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(profileService.create(dto, prtId));
     }
 
     //    2. Update Profile (by only ADMIN)
-    @PostMapping("/admin/{id}")
+    @PostMapping("/private/admin/{id}")
     public ResponseEntity<?> updateAdmin(@PathVariable("id") Integer id,
-                                         @RequestBody ProfileDTO dto,
-                                         @RequestHeader("Authorization") String authorization) {
+                                         @RequestBody @Valid ProfileDTO dto,
+                                         HttpServletRequest request) {
         dto.setId(id);
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
-        return ResponseEntity.ok(profileService.updateByAdmin(dto, jwtDTO));
+        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(profileService.updateByAdmin(dto));
 
     }
 
     //    3. Update Profile Detail (ANY) (Profile updates own details)
-    @PostMapping("/{id}")
+    @PostMapping("/private/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody ProfileDTO dto,
-                                    @RequestHeader("Authorization") String auth) {
+                                    @RequestBody @Valid ProfileDTO dto,
+                                    HttpServletRequest request) {
         dto.setId(id);
-        checkToOwner(auth, dto);
+        JwtUtil.checkToOwnerRequest(request, dto);
         return ResponseEntity.ok(profileService.update(dto));
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<?> updateWithJwt(@RequestBody ProfileDTO dto,
-                                           @RequestHeader("Authorization") String auth) {
-        JwtDTO jwtDTO = checkToOwner(auth, dto);
+    // update with jwt
+    @PostMapping("/private/update")
+    public ResponseEntity<?> updateWithJwt(@RequestBody @Valid ProfileDTO dto,
+                                           HttpServletRequest request) {
+        JwtDTO jwtDTO = JwtUtil.getJwtDTORequest(request);
         dto.setId(jwtDTO.getId());
         return ResponseEntity.ok(profileService.update(dto));
     }
 
 
     //    4. Profile List (ADMIN) (Pagination)
-    @GetMapping("/")
+    @GetMapping("/private")
     public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                    @RequestHeader("Authorization") String auth) {
-        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+                                    HttpServletRequest request) {
+        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
         return ResponseEntity.ok(profileService.getAll(page, size));
     }
 
 
     //    5. Delete Profile By Id (ADMIN)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/private/{id}")
     public ResponseEntity<ProfileDTO> deleteById(@PathVariable("id") Integer id,
-                                                 @RequestHeader("Authorization") String auth) {
-        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+                                                 HttpServletRequest request) {
+        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
         profileService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/upload")
+    // upload image to profile
+    @PostMapping("/private/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,
-                                         @RequestHeader("Authorization") String auth) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth);
-        AttachDTO dto = profileService.uploadImage(file, jwtDTO);
-        return ResponseEntity.ok().body(dto);
+                                         HttpServletRequest request) {
+        JwtDTO jwtDTO = JwtUtil.getJwtDTORequest(request);
+        return ResponseEntity.ok().body(profileService.uploadImage(file, jwtDTO));
     }
 
-    @PostMapping("/filter")
+    // filter profile by admin
+    @PostMapping("/private/filter")
     public ResponseEntity<?> filter(@RequestBody ProfileFilterDTO dto,
-                                    @RequestHeader("Authorization") String auth) {
-        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+                                    HttpServletRequest request) {
+        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
         return ResponseEntity.ok().body(profileService.filter(dto));
     }
 
@@ -98,9 +101,7 @@ public class ProfileController {
         JwtDTO jwtDTO = JwtUtil.decode(arr[1]);
         if (jwtDTO.getId() == null) {
             throw new ItemNotFoundException("Item not found");
-        }// else if (jwtDTO.getId().equals(dto.getId())) {
-//            throw new MethodNotAllowedException("Not access");
-//        }
+        }
         return jwtDTO;
     }
 

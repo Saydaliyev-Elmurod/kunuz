@@ -12,7 +12,7 @@ import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.ProfileFilterRepository;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.MD5Util;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,16 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProfileService {
-    @Autowired
-    private ProfileRepository profileRepository;
-    @Autowired
-    private AttachService attachService;
-    @Autowired
-    private ProfileFilterRepository profileFilterRepository;
+    private final ProfileRepository profileRepository;
+    private final AttachService attachService;
+    private final ProfileFilterRepository profileFilterRepository;
 
     public ProfileDTO create(ProfileDTO dto, Integer adminId) {
-        // check - homework
+        // check
         isValidProfile(dto);
 
         ProfileEntity entity = new ProfileEntity();
@@ -40,7 +38,7 @@ public class ProfileService {
         entity.setPhone(dto.getPhone());
         entity.setEmail(dto.getEmail());
         entity.setRole(dto.getRole());
-        entity.setPassword(MD5Util.getMd5Hash(dto.getPassword())); // MD5 ?
+        entity.setPassword(MD5Util.getMd5Hash(dto.getPassword())); // MD5
         entity.setCreatedDate(LocalDateTime.now());
         entity.setVisible(true);
         entity.setStatus(GeneralStatus.ACTIVE);
@@ -53,24 +51,22 @@ public class ProfileService {
     }
 
     public void isValidProfile(ProfileDTO dto) {
-        if (!profileRepository.findByEmail(dto.getEmail()).isEmpty()) {
+        if (profileRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new AppBadRequestException("This email is already registered");
         }
     }
 
-    public ProfileDTO updateByAdmin(ProfileDTO dto, JwtDTO jwtDTO) {
+    public ProfileDTO updateByAdmin(ProfileDTO dto) {
         ProfileEntity entity = getById(dto.getId());
-        entity = filterAdmin(entity, dto);
-        profileRepository.save(entity);
+        profileRepository.save(filterAdmin(entity, dto));
         return toDTO(entity);
     }
 
     public ProfileEntity getById(Integer id) {
-        ProfileEntity entity = profileRepository.findById(id).orElseThrow(() ->
+        return profileRepository.findById(id).orElseThrow(() ->
         {
             throw new ItemNotFoundException("Item not found");
         });
-        return entity;
     }
 
     private ProfileEntity filterAdmin(ProfileEntity entity, ProfileDTO dto) {
@@ -152,8 +148,7 @@ public class ProfileService {
     }
 
     public void deleteById(Integer id) {
-        ProfileEntity entity = getById(id);
-        profileRepository.delete(entity);
+        profileRepository.deleteById(id);
     }
 
     public AttachDTO uploadImage(MultipartFile file, JwtDTO jwtDTO) {

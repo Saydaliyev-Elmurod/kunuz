@@ -23,7 +23,7 @@ public class ArticleController {
     @PostMapping("/private/")
     public ResponseEntity<?> create(@RequestBody @Valid ArticleDTO dto,
                                     HttpServletRequest request) {
-        JwtUtil.checkForRequiredRole(request,ProfileRole.MODERATOR);
+        JwtUtil.checkForRequiredRoleAndGetPrtId(request,ProfileRole.MODERATOR);
         int prtId=(Integer) request.getAttribute("id");
 //        JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.create(dto, prtId));

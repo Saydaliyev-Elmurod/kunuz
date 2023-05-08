@@ -1,7 +1,10 @@
 package com.example.kunuz.util;
 
 import com.example.kunuz.dto.JwtDTO;
+import com.example.kunuz.dto.profile.ProfileDTO;
 import com.example.kunuz.enums.ProfileRole;
+import com.example.kunuz.exps.AppBadRequestException;
+import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -98,8 +101,11 @@ public class JwtUtil {
         return jwtDTO;
     }
 
-    public static void checkForRequiredRole(HttpServletRequest request, ProfileRole... roleList) {
+    public static int checkForRequiredRoleAndGetPrtId(HttpServletRequest request, ProfileRole... roleList) {
         ProfileRole jwtRole = (ProfileRole) request.getAttribute("role");
+        if (jwtRole==null){
+            throw new AppBadRequestException("Jwt exception");
+        }
         boolean roleFound = false;
         for (ProfileRole role : roleList) {
             if (jwtRole.equals(role)) {
@@ -110,5 +116,29 @@ public class JwtUtil {
         if (!roleFound) {
             throw new MethodNotAllowedException("Method not allowed");
         }
+        int prtId = (Integer) request.getAttribute("id");
+        return prtId;
+    }
+
+    public static JwtDTO checkToOwnerRequest(HttpServletRequest request, ProfileDTO dto) {
+        ProfileRole jwtRole = (ProfileRole) request.getAttribute("role");
+        Integer id = (Integer) request.getAttribute("id");
+        if (jwtRole==null){
+            throw new AppBadRequestException("Jwt exception");
+        }
+
+        if (id != dto.getId()) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return new JwtDTO(id, jwtRole);
+    }
+
+    public static JwtDTO getJwtDTORequest(HttpServletRequest request) {
+        ProfileRole jwtRole = (ProfileRole) request.getAttribute("role");
+        Integer id = (Integer) request.getAttribute("id");
+        if (jwtRole==null){
+            throw new AppBadRequestException("Jwt exception");
+        }
+        return new JwtDTO(id, jwtRole);
     }
 }
