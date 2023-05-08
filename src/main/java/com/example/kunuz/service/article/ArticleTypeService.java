@@ -3,10 +3,9 @@ package com.example.kunuz.service.article;
 import com.example.kunuz.dto.article.ArticleTypeDTO;
 import com.example.kunuz.entity.ArticleTypeEntity;
 import com.example.kunuz.enums.LangEnum;
-import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.article.ArticleTypeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -20,12 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ArticleTypeService {
-    @Autowired
-    private ArticleTypeRepository articleTypeRepository;
+
+    private final ArticleTypeRepository articleTypeRepository;
 
     public ArticleTypeDTO create(ArticleTypeDTO dto) {
-        isValid(dto);
         ArticleTypeEntity entity = new ArticleTypeEntity();
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
@@ -34,6 +33,32 @@ public class ArticleTypeService {
         entity.setVisible(true);
         articleTypeRepository.save(entity);
         return toDTO(entity);
+    }
+    public ArticleTypeDTO updateById(ArticleTypeDTO dto) {
+        ArticleTypeEntity entity = getById(dto.getId());
+         filter(entity, dto);
+        articleTypeRepository.save(entity);
+        return toDTO(entity);
+    }
+    public Page<ArticleTypeDTO> getList(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
+        return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
+    }
+
+    public HashMap<Integer, String> getList(LangEnum name, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
+        HashMap<Integer, String> map = new HashMap<>();
+        entityList.getContent().stream().map(entity -> {
+            switch (name) {
+                case en -> map.put(entity.getId(), entity.getNameEn());
+                case ru -> map.put(entity.getId(), entity.getNameRu());
+                case uz -> map.put(entity.getId(), entity.getNameUz());
+            }
+            return map;
+        }).collect(Collectors.toList());
+        return map;
     }
 
     private ArticleTypeDTO toDTO(ArticleTypeEntity entity) {
@@ -47,24 +72,8 @@ public class ArticleTypeService {
         return dto;
     }
 
-    private void isValid(ArticleTypeDTO dto) {
-        if (dto.getNameEn().length() < 2) {
-            throw new AppBadRequestException("Name English not valid");
-        }
-        if (dto.getNameUz().length() < 2) {
-            throw new AppBadRequestException("Name Uzbek not valid");
-        }
-        if (dto.getNameRu().length() < 2) {
-            throw new AppBadRequestException("Name Russian not valid");
-        }
-    }
 
-    public ArticleTypeDTO updateById(ArticleTypeDTO dto) {
-        ArticleTypeEntity entity = getById(dto.getId());
-        entity = filter(entity, dto);
-        articleTypeRepository.save(entity);
-        return toDTO(entity);
-    }
+
 
     private ArticleTypeEntity filter(ArticleTypeEntity entity, ArticleTypeDTO dto) {
         if (dto.getNameUz() != null) {
@@ -94,26 +103,7 @@ public class ArticleTypeService {
         articleTypeRepository.deleteById(id);
     }
 
-    public Page<ArticleTypeDTO> getList(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
-        return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
-    }
 
-    public HashMap<Integer, String> getList(LangEnum name, Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
-        HashMap<Integer, String> map = new HashMap<>();
-        entityList.getContent().stream().map(entity -> {
-            switch (name) {
-                case en ->map.put(entity.getId(), entity.getNameEn());
-                case ru ->map.put(entity.getId(), entity.getNameRu());
-                case uz ->map.put(entity.getId(), entity.getNameUz());
-            }
-            return map;
-        }).collect(Collectors.toList());
-        return map;
-    }
 
     private List<ArticleTypeDTO> toList(List<ArticleTypeEntity> entityList) {
         List<ArticleTypeDTO> dtoList = new ArrayList<>();
