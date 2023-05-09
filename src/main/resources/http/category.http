@@ -1,16 +1,16 @@
 ### create category only by admin
-POST localhost:8080/api/v1/category/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+POST localhost:8080/api/v1/category/private
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
 Content-Type: application/json
 
 {
-  "nameUz": "O'zbekiston ",
-  "nameRu": "Узбекистан",
-  "nameEn": "Uzbekistan"
+  "nameUz": "O'zbekiston1 ",
+  "nameRu": "Узбекистан1",
+  "nameEn": "Uzbekistan1"
 }
 ### update by id only by admin
-POST localhost:8080/api/v1/category/2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+POST localhost:8080/api/v1/category/private/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
 Content-Type: application/json
 
 {
@@ -18,16 +18,16 @@ Content-Type: application/json
 }
 
 ### delete by id only admin
-DELETE localhost:8080/api/v1/category/5
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+DELETE localhost:8080/api/v1/category/private/5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
 
 ### get list only by admin with pagination
-GET localhost:8080/api/v1/category/list
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+GET localhost:8080/api/v1/category/private/list
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
 
 ### get list by name  only by id with pagination
-GET localhost:8080/api/v1/category/list/ru?page=1&size=2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE3NjA4NDcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE4NDcyNDcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5UgXes5ARCiFgfsl2nSr_gfuTTqzs-IHuF8kq8K54-rX6dUsH5RcHTcHYqEUkMRzPRcZ3BmZPikn7BzNwORhhQ
+GET localhost:8080/api/v1/category/private/list/ru?page=1&size=2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
 
 
 

@@ -6,6 +6,7 @@ import com.example.kunuz.enums.LangEnum;
 import com.example.kunuz.exps.AppBadRequestException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.CategoryRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,12 +21,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
-
+    private final CategoryRepository categoryRepository;
     public CategoryDTO create(CategoryDTO dto) {
-        isValid(dto);
         CategoryEntity entity = new CategoryEntity();
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
@@ -45,18 +44,6 @@ public class CategoryService {
         dto.setId(entity.getId());
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
-    }
-
-    private void isValid(CategoryDTO dto) {
-        if (dto.getNameEn().length() < 2) {
-            throw new AppBadRequestException("Name English not valid");
-        }
-        if (dto.getNameUz().length() < 2) {
-            throw new AppBadRequestException("Name Uzbek not valid");
-        }
-        if (dto.getNameRu().length() < 2) {
-            throw new AppBadRequestException("Name Russian not valid");
-        }
     }
 
     public CategoryDTO updateById(CategoryDTO dto) {
@@ -89,17 +76,14 @@ public class CategoryService {
 
     }
 
-
     public void deleteById(Integer id) {
         categoryRepository.deleteById(id);
     }
-
     public Page<CategoryDTO> getList(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<CategoryEntity> entityList = categoryRepository.findAll(pageable);
         return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
     }
-
     public HashMap<Integer, String> getList(LangEnum name, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<CategoryEntity> entityList = categoryRepository.findAll(pageable);
@@ -114,7 +98,6 @@ public class CategoryService {
         }).collect(Collectors.toList());
         return map;
     }
-
     private List<CategoryDTO> toList(List<CategoryEntity> entityList) {
         List<CategoryDTO> dtoList = new ArrayList<>();
         entityList.forEach(articleTypeEntity -> dtoList.add(toDTO(articleTypeEntity)));

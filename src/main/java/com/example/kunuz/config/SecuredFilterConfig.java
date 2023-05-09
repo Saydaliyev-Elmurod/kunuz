@@ -16,6 +16,9 @@ public class SecuredFilterConfig {
         bean.setFilter(tokenFilter);
         bean.addUrlPatterns("/api/v1/article/private/*");
         bean.addUrlPatterns("/api/v1/articleType/private/*");
+        bean.addUrlPatterns("/api/v1/region/private/*");
+        bean.addUrlPatterns("/api/v1/category/private/*");
+        bean.addUrlPatterns("/api/v1/*/private/*");
         return bean;
     }
 }
