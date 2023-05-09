@@ -1,10 +1,13 @@
 package com.example.kunuz.service;
 
 import com.example.kunuz.dto.TagDTO;
+import com.example.kunuz.entity.ArticleTagEntity;
 import com.example.kunuz.entity.TagEntity;
 import com.example.kunuz.exps.ItemAlreadyExistsException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.TagRepository;
+import com.example.kunuz.repository.article.ArticleTagRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,9 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TagService {
-    @Autowired
-    private TagRepository tagRepository;
+    private final TagRepository tagRepository;
+    private final ArticleTagRepository articleTagRepository;
 
     public TagDTO create(TagDTO dto) {
         TagEntity old = tagRepository.getByName(dto.getName());
@@ -68,6 +72,13 @@ public class TagService {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<TagEntity> entityPage = tagRepository.findAll(pageable);
         return new PageImpl<>(toList(entityPage.getContent()), pageable, entityPage.getTotalElements());
+    }
+
+    public void addTagToArticle(String articleId, Integer tagId) {
+        ArticleTagEntity entity = new ArticleTagEntity();
+        entity.setArticleId(articleId);
+        entity.setTagId(tagId);
+        articleTagRepository.save(entity);
     }
 
     public TagDTO getByName(String tagName) {

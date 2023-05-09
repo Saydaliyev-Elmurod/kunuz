@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +46,7 @@ public class RegionService {
     }
     public RegionDTO updateById(RegionDTO dto) {
         RegionEntity entity = getById(dto.getId());
-        entity = filter(entity, dto);
+        filter(entity, dto);
         regionRepository.save(entity);
         return toDTO(entity);
     }
@@ -65,23 +66,25 @@ public class RegionService {
         return entity;
     }
     public RegionEntity getById(Integer id) {
-        return regionRepository.findById(id).orElseThrow(() -> {
+        Optional<RegionEntity> optional = regionRepository.findById(id);
+        if (optional.isEmpty()|| !optional.get().getVisible()){
             throw new ItemNotFoundException("Item not found");
-        });
-
+        }
+        return optional.get();
     }
     public void deleteById(Integer id) {
-        regionRepository.deleteById(id);
+        regionRepository.updateVisible(id);
+
     }
     public Page<RegionDTO> getList(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<RegionEntity> entityList = regionRepository.findAll(pageable);
+        Page<RegionEntity> entityList = regionRepository.findAllByVisibility(true,pageable);
         return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 
     public HashMap<Integer, String> getList(LangEnum name, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<RegionEntity> entityList = regionRepository.findAll(pageable);
+        Page<RegionEntity> entityList = regionRepository.findAllByVisibility(true,pageable);
         HashMap<Integer, String> map = new HashMap<>();
         entityList.getContent().stream().map(entity -> {
             switch (name) {

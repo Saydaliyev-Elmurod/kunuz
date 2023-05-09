@@ -11,7 +11,7 @@ import com.example.kunuz.repository.article.ArticleFilterRepository;
 import com.example.kunuz.repository.article.ArticleRepository;
 import com.example.kunuz.service.AttachService;
 import com.example.kunuz.service.TagService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +19,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class ArticleService {
-    @Autowired
-    private ArticleRepository articleRepository;
-    @Autowired
-    private TagService tagService;
-    @Autowired
-    private AttachService attachService;
-    @Autowired
-    private ArticleFilterRepository articleFilterRepository;
+    private final ArticleRepository articleRepository;
+    private final TagService tagService;
+    private final AttachService attachService;
+    private final ArticleFilterRepository articleFilterRepository;
 
     public ArticleDTO create(ArticleDTO dto, Integer moderator_id) {
         ArticleEntity entity = new ArticleEntity();
@@ -60,7 +57,6 @@ public class ArticleService {
     }
 
     private ArticleFullInfoDTO toFullInfoDTO(ArticleEntity entity, LangEnum langEnum) {
-
         ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
@@ -103,11 +99,6 @@ public class ArticleService {
         dto.setType(articleTypeDTO);
         return dto;
     }
-    /*ArticleFullInfo
-    id(uuid),title,description,content,shared_count,
-    region(key,name),category(key,name),published_date,view_count,like_count,
-    tagList(name)*/
-
 
     public int delete(String id) {
         return articleRepository.updateVisible(false, id);
@@ -118,7 +109,7 @@ public class ArticleService {
         if (optional.isEmpty()) {
             throw new ItemNotFoundException("Item not found");
         }
-        if (optional.get().getVisible() == false) {
+        if (!optional.get().getVisible()) {
             throw new ItemNotFoundException("Item not found");
         }
         return optional.get();
@@ -145,9 +136,9 @@ public class ArticleService {
         return toShortInfo(entityList);
     }
 
-    public Object getTop8ByTypeId(Integer typeId) {
-        List<ArticleShortInfo> entityList = articleRepository.getTopN(typeId, ArticleStatus.PUBLISHED.name(), 8);
-        return toShortInfo(entityList);
+    public Object getTop8ByTypeId(List<String> idList) {
+        List<ArticleEntity> entityList = articleRepository.find8ByTypeIdExceptIdLists(ArticleStatus.PUBLISHED, idList);
+        return toShortInfoList(entityList);
     }
 
     private List<ArticleShortInfoDTO> toShortInfo(List<ArticleShortInfo> entityList) {
@@ -202,24 +193,34 @@ public class ArticleService {
         Sort sort = Sort.by(Sort.Direction.DESC, "view_count");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<ArticleShortInfo> entityList = articleRepository.getArticleByRegion(regionId, pageable);
-        return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
+        return new PageImpl<>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 
     public Page<ArticleShortInfoDTO> getArticleByCategory(Integer categoryId, Integer page, Integer size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "view_count");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<ArticleShortInfo> entityList = articleRepository.getArticleByCategory(categoryId, pageable);
-        return new PageImpl<ArticleShortInfoDTO>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
+        return new PageImpl<>(toShortInfo(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 
     public Object filter(ArticleFilterDTO dto, int page, int size) {
-        Page<ArticleEntity> pageObj = articleFilterRepository.filter(dto,page,size);
+        Page<ArticleEntity> pageObj = articleFilterRepository.filter(dto, page, size);
         return new PageImpl<>(toShortInfoList(pageObj.getContent()), PageRequest.of(page, size), pageObj.getTotalElements());
     }
 
-    public Object getByTagName(String tagName) {
-        TagDTO tagDTO = tagService.getByName(tagName);
-        return null;
+    public List<ArticleShortInfoDTO> getByTop4ByTagName(String tag) {
+        TagDTO tagDTO = tagService.getByName(tag);
+        List<ArticleShortInfo> entityList = articleRepository.getByTagNameNative(tagDTO.getId());
+        return toShortInfo(entityList);
+    }
 
+    public int increaseViewCount(String articleId) {
+        articleRepository.increaseViewCount(articleId);
+        return articleRepository.getViewCount(articleId);
+    }
+
+    public int increaseShareCount(String articleId) {
+        articleRepository.increaseShareCount(articleId);
+        return articleRepository.getShareCount(articleId);
     }
 }

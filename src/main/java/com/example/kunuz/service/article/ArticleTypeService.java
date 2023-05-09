@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,21 +35,23 @@ public class ArticleTypeService {
         articleTypeRepository.save(entity);
         return toDTO(entity);
     }
+
     public ArticleTypeDTO updateById(ArticleTypeDTO dto) {
         ArticleTypeEntity entity = getById(dto.getId());
-         filter(entity, dto);
+        filter(entity, dto);
         articleTypeRepository.save(entity);
         return toDTO(entity);
     }
+
     public Page<ArticleTypeDTO> getList(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
+        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAllByVisibility(true,pageable);
         return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
     }
 
     public HashMap<Integer, String> getList(LangEnum name, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAll(pageable);
+        Page<ArticleTypeEntity> entityList = articleTypeRepository.findAllByVisibility(true,pageable);
         HashMap<Integer, String> map = new HashMap<>();
         entityList.getContent().stream().map(entity -> {
             switch (name) {
@@ -73,8 +76,6 @@ public class ArticleTypeService {
     }
 
 
-
-
     private ArticleTypeEntity filter(ArticleTypeEntity entity, ArticleTypeDTO dto) {
         if (dto.getNameUz() != null) {
             entity.setNameUz(dto.getNameUz());
@@ -92,17 +93,17 @@ public class ArticleTypeService {
     }
 
     public ArticleTypeEntity getById(Integer id) {
-        return articleTypeRepository.findById(id).orElseThrow(() -> {
+        Optional<ArticleTypeEntity> optional = articleTypeRepository.findById(id);
+        if (optional.isEmpty()|| !optional.get().getVisible()){
             throw new ItemNotFoundException("Item not found");
-        });
-
+        }
+        return optional.get();
     }
 
 
     public void deleteById(Integer id) {
-        articleTypeRepository.deleteById(id);
+        articleTypeRepository.updateVisible(id);
     }
-
 
 
     private List<ArticleTypeDTO> toList(List<ArticleTypeEntity> entityList) {

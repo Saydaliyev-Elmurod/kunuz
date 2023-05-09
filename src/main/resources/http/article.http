@@ -1,10 +1,10 @@
 ### create article
 POST localhost:8080/api/v1/article/private/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMzOTAwMjAsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDI1NDAyMCwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.hAaYY5vlELafEz9Gfg9cuUvdFQSdeT5u7OYbAZDYoqohJ0kfMP0zuODALGCT-AieCdleXd062BeDyPkIqW8Kag
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjAzMDcsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDQ4NDMwNywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.48bHv_641Np3i62_zKFp263rIJrr2ZNmfnFZozKgLMlpSssdmG0xZgz7m8tYJtCuq4WfDQ2NZzCsafeZrGE0Ew
 Content-Type: application/json
 
 {
-  "title": "Shuncha qmkmilganimninn ",
+  "title": "Shuncha qmkmilganimninnkh ",
   "description": "Brain academyda java kurslari ochilyapti",
   "content": "Hazillashdek Brainda Spring kurslari ochilyapti ",
   "categoryId": 2,
@@ -14,8 +14,8 @@ Content-Type: application/json
 
 ### update article
 
-POST localhost:8080/api/v1/article/update/6619a2aa-2198-416c-818d-7b66b5211b31
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NTA2MDAsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4MjgzNzAwMCwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.c7OMEp_IJrAh5MHHrbEyc4gpGXdLHBB2TuinPufgRg_ZFNWDvfCJb7r232FleHg_RerdJNGO-r3FRn0tE0d9pA
+POST localhost:8080/api/v1/article/private/update/ae719147-a791-40df-898b-5b5ddc8a20dd
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjAzMDcsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDQ4NDMwNywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.48bHv_641Np3i62_zKFp263rIJrr2ZNmfnFZozKgLMlpSssdmG0xZgz7m8tYJtCuq4WfDQ2NZzCsafeZrGE0Ew
 Content-Type: application/json
 
 {
@@ -30,40 +30,70 @@ Content-Type: application/json
 }
 
 ### delete article update visible to false
-DELETE localhost:8080/api/v1/article/delete/bc78aaa6-ab91-440c-9972-49c4f2887ef0
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NTA2MDAsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4MjgzNzAwMCwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.c7OMEp_IJrAh5MHHrbEyc4gpGXdLHBB2TuinPufgRg_ZFNWDvfCJb7r232FleHg_RerdJNGO-r3FRn0tE0d9pA
+DELETE localhost:8080/api/v1/article/private/delete/ae719147-a791-40df-898b-5b5ddc8a20dd
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjAzMDcsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDQ4NDMwNywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.48bHv_641Np3i62_zKFp263rIJrr2ZNmfnFZozKgLMlpSssdmG0xZgz7m8tYJtCuq4WfDQ2NZzCsafeZrGE0Ew
 
 ###Change status by id (PUBLISHER) (publish,not_publish)
-PUT localhost:8080/api/v1/article/publish/dc9c0983-7e3e-4144-b950-6b051ab2ac8f?status = PUBLISHED
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI3NTIwNjIsImlkIjoxNCwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTY4MjgzODQ2MiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.bloIUJRZbWDtc9bgp4YaP9R6lvju4zBrHLl9QkfnV98027bHw7q-mTARKO2ylJdoTsUhYhvw5DZd8r3kNPczGQ
+PUT localhost:8080/api/v1/article/private/publish/dc9c0983-7e3e-4144-b950-6b051ab2ac8f?status = PUBLISHED
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjA0NjYsImlkIjoxNCwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTY4NDQ4NDQ2NiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.6o_-h0ns_7QqS1AjQewRaK9LHRrDz_zdWpZFCtT0sYjFhEHk_NY4yF9e_gZYQBr5KpVLAjV03ujvGCdd1rXyyw
+
 
 ###  Get Last 5 Article By Types  ordered_by_created_date
-GET localhost:8080/api/v1/article/publish/5/2
+GET localhost:8080/api/v1/article/public/publish/5/2
+
+
 ### Get Last 3 Article By Types  ordered_by_created_date
-GET localhost:8080/api/v1/article/publish/3/2
-### get top 8
-GET localhost:8080/api/v1/article/publish/8/2
+GET localhost:8080/api/v1/article/public/publish/3/2
+
+
+### get top 8 included id list
+POST localhost:8080/api/v1/article/public/publish/8
+Content-Type: application/json
+
+{
+ "idList": [1,2,3]
+}
+
+
 ### Get Article By Id And Lang
-GET localhost:8080/api/v1/article/publish?id=dc9c0983-7e3e-4144-b950-6b051ab2ac8f&lang=en
+GET localhost:8080/api/v1/article/public/publish/lang?id=dc9c0983-7e3e-4144-b950-6b051ab2ac8f
+Accept-Language:en
 
 ###  Get Last 4 Article By Types and except given article id.
-GET localhost:8080/api/v1/article/publish/4?articleId=dc9c0983-7e3e-4144-b950-6b051ab2ac8f&typeId=2
+GET localhost:8080/api/v1/article/public/publish/4?articleId=dc9c0983-7e3e-4144-b950-6b051ab2ac8f&typeId=2
+
+
 ### Get 4 most read articles
-GET localhost:8080/api/v1/article/publish/top/4
+GET localhost:8080/api/v1/article/public/publish/top/4
+
+### Get Last 4 Article By TagName (Bitta article ni eng ohirida chiqib turadi.)
+GET localhost:8080/api/v1/article/public/publish/tag/Dunyo
 
 
 ###Get Last 5 Article By Types  And By Region Key
-GET localhost:8080/api/v1/article/publish/region/5?regionId=1&typeId=2
+GET localhost:8080/api/v1/article/public/publish/region/5?regionId=1&typeId=2
+
+
 ###Get Article list by Region Key (Pagination)
-GET localhost:8080/api/v1/article/publish/region?regionId=1&page=2&size=2
+GET localhost:8080/api/v1/article/public/publish/region?regionId=1&page=2&size=2
 
 ### Get Last 5 Article Category Key
-GET localhost:8080/api/v1/article/publish/category/5/2
+GET localhost:8080/api/v1/article/public/publish/category/5/2
 
 ### Get Article By Category Key (Pagination)
-GET localhost:8080/api/v1/article/publish/category?categoryId=2&size=2
+GET localhost:8080/api/v1/article/public/publish/category?categoryId=2&size=2
+
+### Increase Article View Count by Article Id
+PUT localhost:8080/api/v1/article/public/view_count/dc9c0983-7e3e-4144-b950-6b051ab2ac8f
 
 
+### Increase Article Share  Count by Article Id
+PUT localhost:8080/api/v1/article/public/share_count/dc9c0983-7e3e-4144-b950-6b051ab2ac8f
 
+### filter
+POST localhost:8080/api/v1/article/public/publish/filter
+Content-Type: application/json
 
-
+{
+  "regionId": 1
+}
