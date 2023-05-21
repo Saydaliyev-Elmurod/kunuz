@@ -7,7 +7,7 @@ import com.example.kunuz.exps.ItemAlreadyExistsException;
 import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.mapper.SavedArticleShortInfoDTO;
-import com.example.kunuz.repository.SavedArticleRepository;
+import com.example.kunuz.repository.article.SavedArticleRepository;
 import com.example.kunuz.service.AttachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

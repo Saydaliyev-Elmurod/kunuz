@@ -1,35 +1,36 @@
 ### create region only by admin
-POST localhost:8080/api/v1/region/private
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+POST localhost:8080/api/v1/region/private/admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 Content-Type: application/json
 
 {
-  "nameUz":"ww",
+  "nameUz":"Toshkent",
   "nameRu":"Ташкент",
   "nameEn":"Tashkent"
 }
 ### update by id only by admin
-POST localhost:8080/api/v1/region/private/2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+POST localhost:8080/api/v1/region/private/admin/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 Content-Type: application/json
 
 {
-  "nameUz":"Tashkent",
+  "nameUz": "Tashkent",
   "nameRu": "Taskjdahj",
-  "nameEn": "Taskjdahj"
+  "nameEn": "Taskjdahj",
+  "visible": true
 }
 
 ### delete by id only admin
-DELETE localhost:8080/api/v1/region/private/2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+DELETE localhost:8080/api/v1/region/private/admin/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 
 ### get list only by admin with pagination
-GET localhost:8080/api/v1/region/private/list
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+GET localhost:8080/api/v1/region/private/admin/list
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 
 ### get list by name  only by id with pagination
-GET localhost:8080/api/v1/region/private/list/ru?page=1&size=2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+GET localhost:8080/api/v1/region/private/admin/list/ru?page=1&size=2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 
 
 

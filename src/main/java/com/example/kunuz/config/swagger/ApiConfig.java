@@ -1,4 +1,4 @@
-package com.example.kunuz.config;
+package com.example.kunuz.config.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

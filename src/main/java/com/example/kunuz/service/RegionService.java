@@ -45,7 +45,11 @@ public class RegionService {
         return dto;
     }
     public RegionDTO updateById(RegionDTO dto) {
-        RegionEntity entity = getById(dto.getId());
+        Optional<RegionEntity> optional = regionRepository.findById(dto.getId());
+        if (optional.isEmpty()){
+            throw new ItemNotFoundException("Item not found");
+        }
+        RegionEntity entity = optional.get();
         filter(entity, dto);
         regionRepository.save(entity);
         return toDTO(entity);

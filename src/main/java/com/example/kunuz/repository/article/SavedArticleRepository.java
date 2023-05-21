@@ -1,4 +1,4 @@
-package com.example.kunuz.repository;
+package com.example.kunuz.repository.article;
 
 import com.example.kunuz.entity.SavedArticleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

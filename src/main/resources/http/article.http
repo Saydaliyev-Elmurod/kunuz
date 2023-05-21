@@ -1,27 +1,30 @@
 ### create article
-POST localhost:8080/api/v1/article/private/
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjAzMDcsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDQ4NDMwNywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.48bHv_641Np3i62_zKFp263rIJrr2ZNmfnFZozKgLMlpSssdmG0xZgz7m8tYJtCuq4WfDQ2NZzCsafeZrGE0Ew
+### moder eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NjgyNzYsImVtYWlsIjoiZWxtdXJvZDNAbWFpbC5ydSIsInJvbGUiOiJST0xFX01PREVSQVRPUiIsImV4cCI6MTY4NDc1NDY3NiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.o9CeAfU2KyXkaOUwJ8Ta4GgOE0FNHLtcfgHE7_MvVP9ynNUOLvcD7t3mpNzHWP6nhryeC_iVJAfDvGVtPHdlyA
+### pub eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NjgxODcsImVtYWlsIjoiZWxtdXJvZDJAbWFpbC5ydSIsInJvbGUiOiJST0xFX1BVQkxJU0hFUiIsImV4cCI6MTY4NDc1NDU4NywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.yV22amr_T3c4M0pQ1e0vjwplu3A82eYRl5ukWstDFslgb3Xjk-W0eaDv8-YtV13_bmInZdcGuiv8Z-0MPv3o6A
+### admin eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
+POST localhost:8080/api/v1/article/private/moder/
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NjgyNzYsImVtYWlsIjoiZWxtdXJvZDNAbWFpbC5ydSIsInJvbGUiOiJST0xFX01PREVSQVRPUiIsImV4cCI6MTY4NDc1NDY3NiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.o9CeAfU2KyXkaOUwJ8Ta4GgOE0FNHLtcfgHE7_MvVP9ynNUOLvcD7t3mpNzHWP6nhryeC_iVJAfDvGVtPHdlyA
 Content-Type: application/json
 
 {
-  "title": "Shuncha qmkmilganimninnkh ",
-  "description": "Brain academyda java kurslari ochilyapti",
-  "content": "Hazillashdek Brainda Spring kurslari ochilyapti ",
-  "categoryId": 2,
-  "regionId": 2,
-  "typeId": 2
+  "title": "Title 2 titlt tltlttltlt",
+  "description": "Description 1 description",
+  "content": "content 1 jkwsdh salsdacjm sdjh",
+  "categoryId": 1,
+  "regionId": 1,
+  "typeId": 1
 }
 
 ### update article
 
-POST localhost:8080/api/v1/article/private/update/ae719147-a791-40df-898b-5b5ddc8a20dd
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjAzMDcsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDQ4NDMwNywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.48bHv_641Np3i62_zKFp263rIJrr2ZNmfnFZozKgLMlpSssdmG0xZgz7m8tYJtCuq4WfDQ2NZzCsafeZrGE0Ew
+POST localhost:8080/api/v1/article/private/moder/update/95d44b63-34fc-41a4-9423-af32d13c93fd
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NjgyNzYsImVtYWlsIjoiZWxtdXJvZDNAbWFpbC5ydSIsInJvbGUiOiJST0xFX01PREVSQVRPUiIsImV4cCI6MTY4NDc1NDY3NiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.o9CeAfU2KyXkaOUwJ8Ta4GgOE0FNHLtcfgHE7_MvVP9ynNUOLvcD7t3mpNzHWP6nhryeC_iVJAfDvGVtPHdlyA
 Content-Type: application/json
 
 {
   "title": "Spring course",
   "description": "Brain academyda java kurslari ochilyapti",
-  "content": "Hazillashgandek Mazgi",
+  "content": "Contenttttttttttttttttttttttttt",
   "categoryId": 1,
   "regionId": 1,
   "typeId": 1,
@@ -30,20 +33,20 @@ Content-Type: application/json
 }
 
 ### delete article update visible to false
-DELETE localhost:8080/api/v1/article/private/delete/ae719147-a791-40df-898b-5b5ddc8a20dd
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjAzMDcsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4NDQ4NDMwNywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.48bHv_641Np3i62_zKFp263rIJrr2ZNmfnFZozKgLMlpSssdmG0xZgz7m8tYJtCuq4WfDQ2NZzCsafeZrGE0Ew
+DELETE localhost:8080/api/v1/article/private/moder/delete/95d44b63-34fc-41a4-9423-af32d13c93fd
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NjgyNzYsImVtYWlsIjoiZWxtdXJvZDNAbWFpbC5ydSIsInJvbGUiOiJST0xFX01PREVSQVRPUiIsImV4cCI6MTY4NDc1NDY3NiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.o9CeAfU2KyXkaOUwJ8Ta4GgOE0FNHLtcfgHE7_MvVP9ynNUOLvcD7t3mpNzHWP6nhryeC_iVJAfDvGVtPHdlyA
 
 ###Change status by id (PUBLISHER) (publish,not_publish)
-PUT localhost:8080/api/v1/article/private/publish/dc9c0983-7e3e-4144-b950-6b051ab2ac8f?status = PUBLISHED
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM2MjA0NjYsImlkIjoxNCwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTY4NDQ4NDQ2NiwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.6o_-h0ns_7QqS1AjQewRaK9LHRrDz_zdWpZFCtT0sYjFhEHk_NY4yF9e_gZYQBr5KpVLAjV03ujvGCdd1rXyyw
+PUT localhost:8080/api/v1/article/private/pub/publish/c6186a73-e060-410a-ac1a-1d358ec94a0b?status = PUBLISHED
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NjgxODcsImVtYWlsIjoiZWxtdXJvZDJAbWFpbC5ydSIsInJvbGUiOiJST0xFX1BVQkxJU0hFUiIsImV4cCI6MTY4NDc1NDU4NywiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.yV22amr_T3c4M0pQ1e0vjwplu3A82eYRl5ukWstDFslgb3Xjk-W0eaDv8-YtV13_bmInZdcGuiv8Z-0MPv3o6A
 
 
 ###  Get Last 5 Article By Types  ordered_by_created_date
-GET localhost:8080/api/v1/article/public/publish/5/2
+GET localhost:8080/api/v1/article/public/publish/5/1
 
 
 ### Get Last 3 Article By Types  ordered_by_created_date
-GET localhost:8080/api/v1/article/public/publish/3/2
+GET localhost:8080/api/v1/article/public/publish/3/1
 
 
 ### get top 8 included id list
@@ -51,16 +54,16 @@ POST localhost:8080/api/v1/article/public/publish/8
 Content-Type: application/json
 
 {
- "idList": [1,2,3]
+ "idList": ["c6186a73-e060-410a-ac1a-1d358ec94a0b",2,3]
 }
 
 
 ### Get Article By Id And Lang
-GET localhost:8080/api/v1/article/public/publish/lang?id=dc9c0983-7e3e-4144-b950-6b051ab2ac8f
+GET localhost:8080/api/v1/article/public/publish/lang?id=c6186a73-e060-410a-ac1a-1d358ec94a0b
 Accept-Language:en
 
-###  Get Last 4 Article By Types and except given article id.
-GET localhost:8080/api/v1/article/public/publish/4?articleId=dc9c0983-7e3e-4144-b950-6b051ab2ac8f&typeId=2
+###  Get Last 4 Article By Types and except(shu article id dan farqli bolgan) given article id.
+GET localhost:8080/api/v1/article/public/publish/4?articleId=c616a73-e060-410a-ac1a-1d358ec94a0b&typeId=1
 
 
 ### Get 4 most read articles

@@ -8,14 +8,16 @@ import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.service.ProfileService;
 import com.example.kunuz.util.JwtUtil;
 import com.example.kunuz.util.SpringSecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-
+//http://localhost:8080/swagger-ui/index.html
+@Tag(name = "Profile Api list", description = "Api list for profiles")
 @RestController
 @RequestMapping("api/v1/profile")
 @AllArgsConstructor
@@ -23,6 +25,9 @@ public class ProfileController {
     private final ProfileService profileService;
 
     //   1. Create profile (ADMIN) (can create MODERATOR,PUBLISHER))
+    @Operation(
+            summary = "Retrieve a Tutorial by Id",
+            description = "Get a Tutorial object by specifying its id. ")
     @PostMapping("/private/admin")
     public ResponseEntity<ProfileDTO> create(@RequestBody @Valid ProfileDTO dto) {
         return ResponseEntity.ok(profileService.create(dto, SpringSecurityUtil.getProfileId()));

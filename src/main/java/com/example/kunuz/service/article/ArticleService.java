@@ -212,6 +212,9 @@ public class ArticleService {
 
     public List<ArticleShortInfoDTO> getByTop4ByTagName(String tag) {
         TagDTO tagDTO = tagService.getByName(tag);
+        if (tagDTO == null) {
+            throw new ItemNotFoundException("Tag not found");
+        }
         List<ArticleShortInfo> entityList = articleRepository.getByTagNameNative(tagDTO.getId());
         return toShortInfo(entityList);
     }

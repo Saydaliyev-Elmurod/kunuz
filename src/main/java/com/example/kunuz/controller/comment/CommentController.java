@@ -29,9 +29,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/private/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
-                                    @RequestHeader("Authorization") String auth) {
-//        JwtUtil.checkToAdminOrOwner(auth);
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(commentService.delete(id));
     }
 

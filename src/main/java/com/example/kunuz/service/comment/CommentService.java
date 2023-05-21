@@ -10,6 +10,7 @@ import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.exps.MethodNotAllowedException;
 import com.example.kunuz.repository.CommentFilterRepository;
 import com.example.kunuz.repository.CommentRepository;
+import com.example.kunuz.util.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -80,6 +81,10 @@ public class CommentService {
     }
 
     public Integer delete(Integer id) {
+        Integer prId = SpringSecurityUtil.getProfileId();
+        if (getById(id).getProfileId()!=prId){
+            throw new MethodNotAllowedException("Method not allowed");
+        }
         int res = commentRepository.updateVisible(false, id);
         commentRepository.deleteReplyIdComment(id);
         return res;

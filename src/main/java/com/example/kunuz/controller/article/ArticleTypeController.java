@@ -22,7 +22,7 @@ public class ArticleTypeController {
         return ResponseEntity.ok(articleTypeService.create(dto));
     }
 // update by id only by admin
-    @PostMapping("/private/adm/{id}")
+    @PostMapping("/private/admin/{id}")
     public ResponseEntity<?> updateById(@PathVariable("id") Integer id,
                                         @RequestBody @Valid ArticleTypeDTO dto) {
         dto.setId(id);

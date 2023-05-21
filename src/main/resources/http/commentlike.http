@@ -1,7 +1,7 @@
 ### like to comment
-PUT localhost:8080/api/v1/comment_like/like/1
+PUT localhost:8080/api/v1/comment_like/private/like/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMxMTYxMDEsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4Mzk4MDEwMSwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.t_271_7VOzyEtkoGMFPwj2hkkstpUBuWzIOmLa0aoUItaCQvIJipbWdhWB_jwAUwlmXKvHDiy3riC48yIQqU_Q
 
 ### dislike to comment
-PUT localhost:8080/api/v1/comment_like/dislike/1
+PUT localhost:8080/api/v1/comment_like/private/dislike/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODMxMTYxMDEsImlkIjoxMywicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTY4Mzk4MDEwMSwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.t_271_7VOzyEtkoGMFPwj2hkkstpUBuWzIOmLa0aoUItaCQvIJipbWdhWB_jwAUwlmXKvHDiy3riC48yIQqU_Q
