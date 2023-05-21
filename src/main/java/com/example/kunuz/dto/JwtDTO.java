@@ -10,5 +10,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JwtDTO {
     private Integer id;
+    private String email;
     private ProfileRole role;
+
+    public JwtDTO(Integer id, ProfileRole profileRole) {
+        this.id = id;
+        this.role = profileRole;
+    }
+
+    public JwtDTO(String email, ProfileRole profileRole) {
+        this.email = email;
+        this.role = profileRole;
+    }
 }

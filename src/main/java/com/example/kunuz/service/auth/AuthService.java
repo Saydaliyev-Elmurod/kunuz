@@ -33,19 +33,19 @@ public class AuthService {
             throw new ItemNotFoundException("Email or password incorrect");
         }
         ProfileEntity entity = optional.get();
-        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
+        if (!entity.getStatus().equals(GeneralStatus.ROLE_ACTIVE)) {
             throw new MethodNotAllowedException("Wrong status,Method not allowed");
         }
         AuthResponseDTO responseDTO = new AuthResponseDTO();
         responseDTO.setName(entity.getName());
         responseDTO.setSurname(entity.getSurname());
         responseDTO.setRole(entity.getRole());
-        responseDTO.setJwt(JwtUtil.encode(entity.getId(), entity.getRole()));
+        responseDTO.setJwt(JwtUtil.encode(entity.getEmail(), entity.getRole()));
         return responseDTO;
     }
     public RegistrationResponseDTO registration(RegistrationDTO dto) {
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
-        if (optional.isPresent() && optional.get().getStatus() != GeneralStatus.REGISTER) {
+        if (optional.isPresent() && optional.get().getStatus() != GeneralStatus.ROLE_REGISTER) {
             throw new ItemNotFoundException("Email already exists.");
         }
         // check email limit
@@ -59,11 +59,11 @@ public class AuthService {
         }
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
-        entity.setRole(ProfileRole.USER);
+        entity.setRole(ProfileRole.ROLE_USER);
         entity.setPhone(dto.getPhone());
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.getMd5Hash(dto.getPassword()));
-        entity.setStatus(GeneralStatus.REGISTER);
+        entity.setStatus(GeneralStatus.ROLE_REGISTER);
         // send email
         mailSenderService.sendRegistrationEmail(dto.getEmail());
 //        mailSenderService.sendRegistrationEmailMime(dto.getEmail());
@@ -80,10 +80,10 @@ public class AuthService {
             throw new ItemNotFoundException("Email not found.");
         }
         ProfileEntity entity = optional.get();
-        if (!entity.getStatus().equals(GeneralStatus.REGISTER)) {
+        if (!entity.getStatus().equals(GeneralStatus.ROLE_REGISTER)) {
             throw new AppBadRequestException("Wrong status");
         }
-        entity.setStatus(GeneralStatus.ACTIVE);
+        entity.setStatus(GeneralStatus.ROLE_ACTIVE);
         profileRepository.save(entity);
         return new RegistrationResponseDTO("Registration Done");
     }

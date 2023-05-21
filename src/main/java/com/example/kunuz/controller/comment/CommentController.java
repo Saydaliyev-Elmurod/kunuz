@@ -6,6 +6,7 @@ import com.example.kunuz.dto.JwtDTO;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.comment.CommentService;
 import com.example.kunuz.util.JwtUtil;
+import com.example.kunuz.util.SpringSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,52 +17,44 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody CommentDTO dto,
-                                    @RequestHeader("Authorization") String auth) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth);
-        return ResponseEntity.ok(commentService.create(dto, jwtDTO.getId()));
+    @PostMapping("/private/")
+    public ResponseEntity<?> create(@RequestBody CommentDTO dto) {
+        return ResponseEntity.ok(commentService.create(dto, SpringSecurityUtil.getProfileId()));
     }
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/private/update/{id}")
     public ResponseEntity<?> update(@RequestBody CommentDTO dto,
-                                    @RequestHeader("Authorization") String auth,
                                     @PathVariable("id") Integer commentId) {
-        JwtDTO jwtDTO = JwtUtil.getJwtDTO(auth);
-        return ResponseEntity.ok(commentService.update(dto, commentId, jwtDTO.getId()));
+        return ResponseEntity.ok(commentService.update(dto, commentId, SpringSecurityUtil.getProfileId()));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/private/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
                                     @RequestHeader("Authorization") String auth) {
-        JwtUtil.checkToAdminOrOwner(auth);
+//        JwtUtil.checkToAdminOrOwner(auth);
         return ResponseEntity.ok(commentService.delete(id));
     }
 
-    @GetMapping("/list/{id}")
+    @GetMapping("/public/list/{id}")
     public ResponseEntity<?> list(@PathVariable("id") String articleId) {
         return ResponseEntity.ok(commentService.list(articleId));
     }
 
-    @GetMapping("/list/adm/{id}")
+    @GetMapping("/private/list/admin/{id}")
     public ResponseEntity<?> listByAdmin(@PathVariable("id") String articleId,
-                                         @RequestHeader("Authorization") String auth,
                                          @RequestParam(value = "page", defaultValue = "1") Integer page,
                                          @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(commentService.listByAdmin(articleId, page, size));
     }
 
-    @PostMapping("/filter")
+    @PostMapping("/private/admin/filter")
     public ResponseEntity<?> filter(@RequestBody CommentFilterDTO dto,
-                                    @RequestHeader("Authorization") String auth,
                                     @RequestParam(value = "page", defaultValue = "1") Integer page,
                                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
         return ResponseEntity.ok(commentService.filter(dto, page, size));
     }
 
-    @GetMapping("/list/reply/{id}")
+    @GetMapping("/public/list/reply/{id}")
     public ResponseEntity<?> replyCommentList(@PathVariable("id") Integer commentId) {
         return ResponseEntity.ok(commentService.replyCommentList(commentId));
     }

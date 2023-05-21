@@ -67,14 +67,10 @@ public class AttachService {
         return null;
     }
 
-
     public byte[] open(String attachId) {
-        // 20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
-//        int lastIndex = attachName.lastIndexOf(".");
-//        String id = attachName.substring(0, lastIndex);//20f0f915-93ec-4099-97e3-c1cb7a95151f
         AttachEntity attachEntity = get(attachId);
         byte[] data;
-        try {                                                     // attaches/2023/4/25/20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
+        try {                 // attaches/2023/4/25/20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
             Path file = Paths.get(folderName + "/" + attachEntity.getPath() + "/" + attachId + "." + attachEntity.getExtension());
             data = Files.readAllBytes(file);
             return data;
@@ -85,14 +81,10 @@ public class AttachService {
     }
 
 
-
-    public Resource download(String fileName) {
+    public Resource download(String fileId) {
         try {
-            int lastIndex = fileName.lastIndexOf(".");
-            String id = fileName.substring(0, lastIndex);
-            AttachEntity attachEntity = get(id);
-
-            Path file = Paths.get(folderName + "/" + attachEntity.getPath() + "/" + fileName);
+            AttachEntity attachEntity = get(fileId);
+            Path file = Paths.get(folderName + "/" + attachEntity.getPath() + "/" + fileId+"."+attachEntity.getExtension());
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
@@ -128,7 +120,6 @@ public class AttachService {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdDate"));
         Page<AttachEntity> entityList = attachRepository.findAll(pageable);
         return new PageImpl<>(toList(entityList.getContent()), pageable, entityList.getTotalElements());
-
     }
 
     public boolean delete(String id) {
@@ -156,16 +147,19 @@ public class AttachService {
         dto.setCreatedData(entity.getCreatedDate());
         dto.setOriginalName(entity.getOriginalName());
         dto.setPath(entity.getPath());
-        dto.setUrl(domainName + "/" + "api/v1/attach/open/" + entity.getPath() + "/" + entity.getId() + "." + entity.getExtension());
+        dto.setUrl(domainName + "/api/v1/attach/public/open/" + entity.getId());
         dto.setSize(entity.getSize());
         dto.setExtension(entity.getExtension());
         return dto;
     }
 
+    public String getAttachByLink(String attachId) {
+        return (domainName + "/api/v1/attach/public/open/" + attachId);
+    }
     public AttachDTO getAttachLink(String attachId) {
         AttachDTO dto = new AttachDTO();
         dto.setId(attachId);
-        dto.setUrl(domainName + "/api/v1/attach/open/" + attachId);
+        dto.setUrl(domainName + "/api/v1/attach/public/open/" + attachId);
         return dto;
     }
 

@@ -17,44 +17,34 @@ import org.springframework.web.bind.annotation.*;
 public class ArticleTypeController {
     private final ArticleTypeService articleTypeService;
     //  create articleType only by admin
-    @PostMapping("/private")
-    public ResponseEntity<?> create(@RequestBody @Valid ArticleTypeDTO dto,
-                                    HttpServletRequest request) {
-        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
+    @PostMapping("/private/admin")
+    public ResponseEntity<?> create(@RequestBody @Valid ArticleTypeDTO dto) {
         return ResponseEntity.ok(articleTypeService.create(dto));
     }
 // update by id only by admin
-    @PostMapping("/private/{id}")
+    @PostMapping("/private/adm/{id}")
     public ResponseEntity<?> updateById(@PathVariable("id") Integer id,
-                                        @RequestBody @Valid ArticleTypeDTO dto,
-                                        HttpServletRequest request) {
-        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
+                                        @RequestBody @Valid ArticleTypeDTO dto) {
         dto.setId(id);
         return ResponseEntity.ok(articleTypeService.updateById(dto));
     }
 //delete by id only admin
-    @DeleteMapping("/private/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Integer id,
-                                        HttpServletRequest request) {
-        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
+    @DeleteMapping("/private/admin/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Integer id) {
         articleTypeService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 //### get list only by admin with pagination
-    @GetMapping("/private/list")
+    @GetMapping("/private/admin/list")
     public ResponseEntity<?> getList(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                     HttpServletRequest request) {
-        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
+                                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
         return ResponseEntity.ok(articleTypeService.getList(page, size));
     }
 //### get list by name  only by id with pagination
-    @GetMapping("/private/list/{name}")
+    @GetMapping("/private/admin/list/{name}")
     public ResponseEntity<?> getList(@PathVariable("name") LangEnum name,
                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                     HttpServletRequest request) {
-        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.ADMIN);
+                                     @RequestParam(value = "size", defaultValue = "10") Integer size) {
         return ResponseEntity.ok(articleTypeService.getList(name,page, size));
     }
 

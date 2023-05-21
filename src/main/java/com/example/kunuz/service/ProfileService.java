@@ -12,6 +12,7 @@ import com.example.kunuz.exps.ItemNotFoundException;
 import com.example.kunuz.repository.ProfileFilterRepository;
 import com.example.kunuz.repository.ProfileRepository;
 import com.example.kunuz.util.MD5Util;
+import com.example.kunuz.util.SpringSecurityUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class ProfileService {
     private final AttachService attachService;
     private final ProfileFilterRepository profileFilterRepository;
 
+//    private final
+
     public ProfileDTO create(ProfileDTO dto, Integer adminId) {
         // check
         isValidProfile(dto);
@@ -41,8 +44,8 @@ public class ProfileService {
         entity.setPassword(MD5Util.getMd5Hash(dto.getPassword())); // MD5
         entity.setCreatedDate(LocalDateTime.now());
         entity.setVisible(true);
-        entity.setStatus(GeneralStatus.ACTIVE);
-        entity.setPrtId(adminId);
+        entity.setStatus(GeneralStatus.ROLE_ACTIVE);
+        entity.setPrtId(SpringSecurityUtil.getProfileId());
         profileRepository.save(entity); // save profile
         dto.setStatus(entity.getStatus());
         dto.setPassword(null);
@@ -151,8 +154,8 @@ public class ProfileService {
         profileRepository.deleteById(id);
     }
 
-    public AttachDTO uploadImage(MultipartFile file, JwtDTO jwtDTO) {
-        ProfileEntity profileEntity = getById(jwtDTO.getId());
+    public AttachDTO uploadImage(MultipartFile file, Integer jwtDTOId) {
+        ProfileEntity profileEntity = getById(jwtDTOId);
         AttachDTO newPhoto = attachService.save(file);
         AttachEntity oldPhoto = profileEntity.getAttachEntity();
         profileEntity.setAttachEntity(attachService.get(newPhoto.getId()));

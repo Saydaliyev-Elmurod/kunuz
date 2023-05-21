@@ -3,9 +3,12 @@ POST localhost:8080/api/v1/auth/public
 Content-Type:  application/json
 
 {
-  "email": "admin@mail.ru",
-  "password": "elmurod2203"
+  "email": "elmurod2@mail.ru",
+  "password": "elmurod"
 }
+
+### admin jwt  eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTcxOTIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjExOTIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.EpbEKDvwq8jEXutM2bgpK79Hhq5UWpXxi-leAvPcAvPHzUqHbp2Sh91iL_cYoDcG3nBG1eLI8VKDhIohQMeOxw
+### user jwt   eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTcyODAsImVtYWlsIjoic2F5ZGFsaXlldmVsbXVyb2QwMUBnbWFpbC5jb20iLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjg1NTIxMjgwLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.c3Frcigk7PBm_qvvIzEN0cAfnv0GE0xykYUXGGXoXp2CuWYKq6bBxJiCO-u2dBABnyyX_Wb9X_bIY5L0EvcCsA
 
 ### Registration
 POST localhost:8080/api/v1/auth/public/register

@@ -1,5 +1,4 @@
 package com.example.kunuz.config;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +12,10 @@ public class MigrationConfiguration {
     @Value("${spring.datasource.username}")
     private String dataSourceUsername;
     @Value("${spring.datasource.password}")
+
     private String dataSourcePassword;
     @Bean
-    public DataSource getDataSource() {
+    public DataSource getDataSource(){
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.url(dataSourceUrl);
         dataSourceBuilder.username(dataSourceUsername);

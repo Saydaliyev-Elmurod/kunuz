@@ -1,4 +1,4 @@
-POST http://localhost:8080/api/v1/attach/upload
+POST http://localhost:8080/api/v1/attach/public/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
@@ -8,7 +8,7 @@ Content-Disposition: form-data; name="file"; filename="test.jpg"
 
 ### video
 
-POST http://localhost:8080/api/v1/attach/upload
+POST http://localhost:8080/api/v1/attach/public/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
@@ -17,7 +17,7 @@ Content-Disposition: form-data; name="file"; filename="test1.mp4"
 < C:\Users\Элмурод\Pictures\test1.mp4
 
 ### open file
-GET localhost:8080/api/v1/attach/open/bd7f5411-fe6c-4661-bae1-b324ed270621.jpg
+GET localhost:8080/api/v1/attach/public/open/491ab5b9-8152-4600-8e71-69aec711c3e4
 
 
 ### download
@@ -25,8 +25,9 @@ GET localhost:8080/api/v1/attach/download/adee08ad-5ca1-4914-86c6-47ba1def3488.m
 
 ### pagination
 
-GET localhost:8080/api/v1/attach/pagination
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI1Mjg2ODcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODI2MTUwODcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5fuD36iRjABZrKHVoaTOPJNgUepias95iDJeHfaZz3LdUS81_knatsWLD6mgbSShG3zzLVpwr4Wot9m7_QJePA
+GET localhost:8080/api/v1/attach/private/admin/pagination
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
+
 ### delete by id
-DELETE localhost:8080/api/v1/attach/delete/adee08ad-5ca1-4914-86c6-47ba1def3488
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI1Mjg2ODcsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODI2MTUwODcsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.5fuD36iRjABZrKHVoaTOPJNgUepias95iDJeHfaZz3LdUS81_knatsWLD6mgbSShG3zzLVpwr4Wot9m7_QJePA
+DELETE localhost:8080/api/v1/attach/private/admin/delete/c13dfd82-e074-49c2-8c90-7c998a9ff43d
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg

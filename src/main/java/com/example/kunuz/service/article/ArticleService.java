@@ -11,6 +11,7 @@ import com.example.kunuz.repository.article.ArticleFilterRepository;
 import com.example.kunuz.repository.article.ArticleRepository;
 import com.example.kunuz.service.AttachService;
 import com.example.kunuz.service.TagService;
+import com.example.kunuz.util.SpringSecurityUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,8 @@ public class ArticleService {
     private final AttachService attachService;
     private final ArticleFilterRepository articleFilterRepository;
 
-    public ArticleDTO create(ArticleDTO dto, Integer moderator_id) {
+    public ArticleDTO create(ArticleDTO dto) {
+        Integer moderator_id = SpringSecurityUtil.getProfileId();
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());

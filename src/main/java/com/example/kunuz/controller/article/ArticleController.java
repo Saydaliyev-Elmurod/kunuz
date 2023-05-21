@@ -1,6 +1,5 @@
 package com.example.kunuz.controller.article;
 
-import com.example.kunuz.dto.TagDTO;
 import com.example.kunuz.dto.article.ArticleDTO;
 import com.example.kunuz.dto.article.ArticleFilterDTO;
 import com.example.kunuz.dto.article.ArticleGetByTypeRequestDTO;
@@ -9,11 +8,12 @@ import com.example.kunuz.enums.LangEnum;
 import com.example.kunuz.enums.ProfileRole;
 import com.example.kunuz.service.article.ArticleService;
 import com.example.kunuz.util.JwtUtil;
+import com.example.kunuz.util.SpringSecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,35 +21,27 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class ArticleController {
     private final ArticleService articleService;
-
-    @PostMapping("/private/")
-    public ResponseEntity<?> create(@RequestBody @Valid ArticleDTO dto,
-                                    HttpServletRequest request) {
-        int prtId = JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.MODERATOR);
-        return ResponseEntity.ok(articleService.create(dto, prtId));
+    @PreAuthorize("hasRole('MODERATOR')")
+    @PostMapping("/private/moder/")
+    public ResponseEntity<?> create(@RequestBody @Valid ArticleDTO dto) {
+        return ResponseEntity.ok(articleService.create(dto));
     }
 
-    @PostMapping("/private/update/{id}")
+    @PostMapping("/private/moder/update/{id}")
     public ResponseEntity<?> update(@RequestBody ArticleDTO dto,
-                                    HttpServletRequest request,
                                     @PathVariable("id") String articleId) {
-        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.update(dto, articleId));
     }
 
-    @DeleteMapping("/private/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") String id,
-                                    HttpServletRequest request) {
-        JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.MODERATOR);
+    @DeleteMapping("/private/moder/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         return ResponseEntity.ok(articleService.delete(id));
     }
 
-    @PutMapping("/private/publish/{id}")
+    @PutMapping("/private/pub/publish/{id}")
     public ResponseEntity<?> changeStatus(@PathVariable("id") String id,
-                                          @RequestParam ArticleStatus status,
-                                          HttpServletRequest request) {
-        int prtId = JwtUtil.checkForRequiredRoleAndGetPrtId(request, ProfileRole.PUBLISHER);
-        return ResponseEntity.ok(articleService.changeStatusToPublish(id, status, prtId));
+                                          @RequestParam ArticleStatus status) {
+        return ResponseEntity.ok(articleService.changeStatusToPublish(id, status, SpringSecurityUtil.getProfileId()));
     }
 
     @GetMapping("/public/publish/5/{id}")

@@ -18,36 +18,33 @@ public class AttachController {
     @Autowired
     private AttachService attachService;
 
-    @PostMapping("/upload")
+    @PostMapping("/public/upload")
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
         AttachDTO attachDTO = attachService.save(file);
         return ResponseEntity.ok().body(attachDTO);
     }
 
 
-    @GetMapping(value = "/open/{fileName}", produces = MediaType.ALL_VALUE)
+    @GetMapping(value = "/public/open/{fileName}", produces = MediaType.ALL_VALUE)
     public byte[] open(@PathVariable("fileName") String fileName) {
         return attachService.open(fileName);
     }
 
-    @GetMapping("/download/{fineName}")
+    @GetMapping("/public/download/{fineName}")
     public ResponseEntity<Resource> download(@PathVariable("fineName") String fileName) {
         Resource file = attachService.download(fileName);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @GetMapping("/pagination")
-    public ResponseEntity<?> pagination(@RequestHeader("Authorization") String auth,
-                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
+    @GetMapping("/private/admin/pagination")
+    public ResponseEntity<?> pagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                         @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
-        return  ResponseEntity.ok(attachService.pagination(page,size));
+        return ResponseEntity.ok(attachService.pagination(page, size));
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") String id,
-                                    @RequestHeader("Authorization") String auth) {
-        JwtUtil.getJwtDTO(auth, ProfileRole.ADMIN);
+
+    @DeleteMapping("/private/admin/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         return ResponseEntity.ok(attachService.delete(id));
     }
 }

@@ -20,7 +20,6 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 
 @Service
-
 public class MailSenderService {
     @Autowired
     private  JavaMailSender javaMailSender;

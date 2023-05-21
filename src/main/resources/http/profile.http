@@ -1,63 +1,63 @@
 ### create profile
 POST localhost:8080/api/v1/profile/private/admin
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 Content-Type:  application/json
 
 {
   "name": "elmurod",
   "surname": "elmurod",
-  "email": "elmurod2@mail.ru",
+  "email": "elmurod3@mail.ru",
   "phone": "1234",
   "password": "elmurod",
-  "role": "PUBLISHER"
+  "role": "ROLE_MODERATOR"
 }
 
 ### update profile by only admin
-POST localhost:8080/api/v1/profile/private/admin/17
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+POST localhost:8080/api/v1/profile/private/admin/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 Content-Type:  application/json
 
 {
   "name": "elmurod",
   "surname": "elmurod",
-  "email": "elmurod2@mail.ru",
+  "email": "elmurod3@mail.ru",
   "phone": "123478"
 }
 ###   3. Update Profile Detail (ANY) (Profile updates own details)
-POST localhost:8080/api/v1/profile/private/5
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+POST localhost:8080/api/v1/profile/private/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTg1MzAsImVtYWlsIjoiZWxtdXJvZDNAbWFpbC5ydSIsInJvbGUiOiJST0xFX01PREVSQVRPUiIsImV4cCI6MTY4NDc0NDkzMCwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.xgqYJS1xLEDuc9je7YYhE9KjEiKjVRtFY56wVHaoWoWO-CdgwhlxqXsEV_VrZ-B-qdJ7jRhz2Qn6TghlQduN5Q
 Content-Type: application/json
 
 {
-  "name": "admin",
-  "surname": "admin",
+  "name": "Elmurod",
+  "surname": "Saydaliyev",
   "password": "elmurod"
 }
 
 ###   4. Update Profile Detail (ANY) (Profile updates own details) with jwt
 POST localhost:8080/api/v1/profile/private/update
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTg1MzAsImVtYWlsIjoiZWxtdXJvZDNAbWFpbC5ydSIsInJvbGUiOiJST0xFX01PREVSQVRPUiIsImV4cCI6MTY4NDc0NDkzMCwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.xgqYJS1xLEDuc9je7YYhE9KjEiKjVRtFY56wVHaoWoWO-CdgwhlxqXsEV_VrZ-B-qdJ7jRhz2Qn6TghlQduN5Q
 Content-Type: application/json
 
 {
-  "name": "admin",
-  "surname": "admin",
-  "password": "elmurod2203"
+  "name": "Elmurodjon",
+  "surname": "Saydaliyev",
+  "password": "elmurod"
 }
 
 ### profile list
-GET localhost:8080/api/v1/profile/private
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+GET localhost:8080/api/v1/profile/private/admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 
 
 ### delete profile by id
-DELETE localhost:8080/api/v1/profile/private/16
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+DELETE localhost:8080/api/v1/profile/private/admin/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 
 
 ### profile update image;    5. Delete Profile By Id (ADMIN)
 POST localhost:8080/api/v1/profile/private/upload
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTg4MDEsImVtYWlsIjoiZWxtdXJvZDJAbWFpbC5ydSIsInJvbGUiOiJST0xFX1BVQkxJU0hFUiIsImV4cCI6MTY4NDc0NTIwMSwiaXNzIjoiS3VudXogdGVzdCBwb3J0YWxpIn0.xyeCrZAFZHC1INJb4jmL30icNRupxGnUKW0CjEQ8Ohf6yxYJ2Jz2HhN6yBRUWZAN4dh_zQ3b2LDaU65YxRYv9g
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
@@ -66,10 +66,10 @@ Content-Disposition: form-data; name="file"; filename="test.jpg"
 < C:\Users\Элмурод\Pictures\test.jpg
 
 ### filter profile
-POST localhost:8080/api/v1/profile/private/filter
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODM1NjI1MjIsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODQ0MjY1MjIsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0T7tdEdYb6WutOuEC_Gl_kHJrw692aWVoOfdI25igc69SujJLkevcuKVTDgD_9lSiUfc5Ij_m7wWNb6MreP_MA
+POST localhost:8080/api/v1/profile/private/admin/filter
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ2NTc5MjYsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE2ODU1MjE5MjYsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.vHoB7DH10zHt4F771ixv5tD2douPtfsM95Q-qGjiFE-_p30PfuYlLpweEbFziJLSQlTEhf24WuBOD2aMrgjTEg
 Content-Type: application/json
 
 {
-  "status": "ACTIVE"
+  "status": "ROLE_ACTIVE"
 }
